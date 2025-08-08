@@ -1,0 +1,71 @@
+{
+  "name": "backend",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "backend",
+  "runServices": ["backend", "db"],
+  "workspaceFolder": "/workspace",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.go",
+        "ms-vscode.vscode-json",
+        "ms-vscode.vscode-yaml",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {
+        "go.useLanguageServer": true,
+        "go.gopath": "/go",
+        "go.toolsManagement.checkForUpdates": "local"
+      },
+      "launch": {
+        "version": "0.2.0",
+        "configurations": [
+          {
+            "type": "go",
+            "request": "launch",
+            "name": "Go: Launch Package",
+            "mode": "auto",
+            "program": "/workspace/backend/main.go",
+            "cwd": "/workspace/backend"
+          },
+          {
+            "type": "go",
+            "request": "launch",
+            "name": "Go: Launch with Race Detection",
+            "mode": "auto",
+            "program": "/workspace/backend/main.go",
+            "cwd": "/workspace/backend",
+            "args": ["-race"]
+          },
+          {
+            "type": "go",
+            "request": "attach",
+            "name": "Go: Attach to Process",
+            "mode": "remote",
+            "remotePath": "/workspace/backend",
+            "port": 2345,
+            "host": "127.0.0.1"
+          }
+        ]
+      }
+    }
+  },
+  "forwardPorts": [8080, 5432],
+  "portsAttributes": {
+    "8080": {
+      "label": "Backend API",
+      "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "PostgreSQL",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "cd /workspace/backend && go mod init backend",
+  "remoteUser": "root",
+  "shutdownAction": "stopCompose"
+}

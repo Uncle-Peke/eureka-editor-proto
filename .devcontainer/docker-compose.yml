@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: db
+    environment:
+      POSTGRES_DB: eureka_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image: golang:latest
+    container_name: backend
+    working_dir: /workspace/backend
+    volumes:
+      - .:/workspace
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+      - "2345:2345"  # Delve debugger port
+    environment:
+      - DATABASE_URL=postgres://postgres:password@db:5432/eureka_dev?sslmode=disable
+    restart: unless-stopped
+    command: ["sleep", "infinity"]
+
+  frontend:
+    image: mcr.microsoft.com/devcontainers/javascript-node:20-bullseye
+    container_name: frontend
+    working_dir: /workspace/frontend
+    volumes:
+      - .:/workspace
+    ports:
+      - "3000:3000"
+      - "9229:9229"  # Node.js debugger port
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    restart: unless-stopped
+    command: ["sleep", "infinity"]
+
+volumes:
+  postgres_data:

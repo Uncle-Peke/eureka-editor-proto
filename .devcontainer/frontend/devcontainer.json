@@ -1,0 +1,85 @@
+{
+  "name": "frontend",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "frontend",
+  "runServices": ["frontend", "backend", "db"],
+  "workspaceFolder": "/workspace",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-typescript-next",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-eslint",
+        "formulahendry.auto-rename-tag",
+        "christian-kohler.path-intellisense",
+        "ms-vscode.vscode-json"
+      ],
+      "settings": {
+        "typescript.preferences.includePackageJsonAutoImports": "on",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        }
+      },
+      "launch": {
+        "version": "0.2.0",
+        "configurations": [
+          {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "Next.js: Dev with Debugger",
+            "command": "npm run dev",
+            "cwd": "/workspace/frontend"
+          },
+          {
+            "type": "node",
+            "request": "launch",
+            "name": "Next.js: debug server-side",
+            "program": "/workspace/frontend/node_modules/next/dist/bin/next",
+            "args": ["dev"],
+            "cwd": "/workspace/frontend",
+            "console": "integratedTerminal",
+            "skipFiles": ["<node_internals>/**"]
+          },
+          {
+            "type": "node",
+            "request": "launch",
+            "name": "Next.js: debug client-side",
+            "program": "/workspace/frontend/node_modules/next/dist/bin/next",
+            "args": ["dev"],
+            "cwd": "/workspace/frontend",
+            "console": "integratedTerminal",
+            "skipFiles": ["<node_internals>/**"],
+            "env": {
+              "NODE_OPTIONS": "--inspect"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "forwardPorts": [3000, 8080, 5432],
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js Dev Server",
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "Backend API",
+      "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "PostgreSQL",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "cd /workspace && npm install",
+  "remoteUser": "node",
+  "shutdownAction": "stopCompose"
+}

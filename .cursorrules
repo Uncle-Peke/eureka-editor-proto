@@ -1,0 +1,126 @@
+# Eureka Editor UX Proto - Cursor Context
+
+## プロジェクト概要
+モノレポ構成のDevContainer環境で開発するプロジェクトです。
+
+## 技術スタック
+- **Frontend**: Next.js (TypeScript)
+- **Backend**: Go (Gin)
+- **Database**: PostgreSQL
+
+## DevContainerの使用方法
+
+### コンテナの切り替え
+別のコンテナに切り替えたい場合：
+```
+Dev Containers: Switch Container
+```
+
+## 開発環境
+
+### デバッグの準備
+DevContainer環境では、必要な拡張機能は自動的にインストールされます：
+
+- **Frontend**: TypeScript and JavaScript Language Features
+- **Backend**: Go (golang.go)
+
+各コンテナに接続すると、デバッグ設定が自動的に利用可能になります。
+
+### Frontendデバッグモード
+
+1. **frontendコンテナに接続**
+2. VSCodeでデバッグビューを開く（`Ctrl+Shift+D`）
+3. 以下のいずれかを選択：
+   - "Next.js: Dev with Debugger" - 統合ターミナルでデバッグ
+   - "Next.js: debug server-side" - サーバーサイドデバッグ
+   - "Next.js: debug client-side" - クライアントサイドデバッグ
+4. F5キーでデバッグを開始
+
+### Backendデバッグモード
+
+1. **backendコンテナに接続**
+2. VSCodeでデバッグビューを開く（`Ctrl+Shift+D`）
+3. 以下のいずれかを選択：
+   - "Go: Launch Package" - 標準デバッグ
+   - "Go: Launch with Race Detection" - レースコンディション検出付き
+   - "Go: Attach to Process" - 実行中のプロセスにアタッチ
+4. F5キーでデバッグを開始
+
+または、コンテナ内のコマンドラインから：
+```bash
+go run -race main.go  # レースコンディション検出付き
+dlv debug main.go     # Delveデバッガーを使用
+```
+
+### デバッグのヒント
+
+#### Frontendデバッグ
+- ブレークポイントを設定して、サーバーサイドとクライアントサイドの両方でデバッグ可能
+- `npm run dev:debug` でデバッグモードでNext.jsを起動
+- ブラウザの開発者ツールと組み合わせて使用
+
+#### Backendデバッグ
+- Goの標準デバッガー（Delve）を使用
+- レースコンディション検出機能付きでデバッグ可能
+- リモートデバッグも対応
+
+### トラブルシューティング
+
+**デバッグが動作しない場合：**
+1. 適切なコンテナに接続していることを確認
+2. コンテナが正常に起動していることを確認
+3. デバッグポート（9229, 2345）が正しくフォワードされていることを確認
+4. コンテナを再起動してから再度試行
+
+**DevContainerの再構築が必要な場合：**
+```bash
+# VSCodeコマンドパレットから
+Dev Containers: Rebuild Container
+```
+
+### データベース
+
+PostgreSQLは自動的に起動し、以下の設定で利用可能：
+- Host: localhost
+- Port: 5432
+- Database: eureka_dev
+- User: postgres
+- Password: password
+
+## ファイル構造
+
+```
+.
+├── .devcontainer/
+│   ├── backend/
+│   │   └── devcontainer.json
+│   └── frontend/
+│       └── devcontainer.json
+├── backend/
+│   ├── main.go
+│   └── go.mod
+├── frontend/ (Next.js files)
+├── docker-compose.yml
+└── README.md
+```
+
+## 開発ガイドライン
+
+### コーディング規約
+- TypeScript: ESLint + Prettier
+- Go: gofmt + golint
+- コミットメッセージ: Conventional Commits
+
+### テスト
+- Frontend: Jest + Testing Library
+- Backend: Go標準テスト + testify
+
+### 環境変数
+- 開発環境: `.env.local`
+- 本番環境: 環境変数またはシークレット管理
+
+### セキュリティ
+- API認証: JWT
+- データベース: プリペアドステートメント使用
+- CORS: 適切なオリジン設定
+
