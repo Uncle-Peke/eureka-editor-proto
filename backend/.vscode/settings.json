@@ -1,0 +1,11 @@
+{
+    "go.toolsManagement.checkForUpdates": "local",
+    "go.useLanguageServer": true,
+    "go.lintTool": "golangci-lint",
+    "go.lintOnSave": "package",
+    "go.vetOnSave": "package",
+    "go.testOnSave": false,
+    "go.coverOnSave": false,
+    "go.goroot": "/usr/local/go",
+    "go.gopath": "/go"
+}

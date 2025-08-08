@@ -1,8 +1,8 @@
 {
   "name": "Eureka Editor Proto",
-  "dockerComposeFile": ["../docker-compose.yml"],
-  "service": "frontend",
-  "runServices": ["frontend", "backend", "db"],
+  "dockerComposeFile": ["docker-compose.yml"],
+  "service": "main",
+  "runServices": ["main", "frontend", "backend", "db"],
   "workspaceFolder": "/workspace",
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},

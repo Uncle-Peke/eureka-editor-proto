@@ -31,32 +31,6 @@
         "env": {
           "NODE_OPTIONS": "--inspect"
         }
-      },
-      {
-        "type": "go",
-        "request": "launch",
-        "name": "Go: Launch Package",
-        "mode": "auto",
-        "program": "${workspaceFolder}/backend/main.go",
-        "cwd": "${workspaceFolder}/backend"
-      },
-      {
-        "type": "go",
-        "request": "launch",
-        "name": "Go: Launch with Race Detection",
-        "mode": "auto",
-        "program": "${workspaceFolder}/backend/main.go",
-        "cwd": "${workspaceFolder}/backend",
-        "args": ["-race"]
-      },
-      {
-        "type": "go",
-        "request": "attach",
-        "name": "Go: Attach to Process",
-        "mode": "remote",
-        "remotePath": "${workspaceFolder}/backend",
-        "port": 2345,
-        "host": "127.0.0.1"
       }
     ]
   }

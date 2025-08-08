@@ -13,13 +13,14 @@ func main() {
 	// ヘルスチェックエンドポイント
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"status": "ok",
+			"status":  "ok",
 			"message": "Backend is running",
 		})
 	})
 
 	// APIエンドポイント
 	r.GET("/api/hello", func(c *gin.Context) {
+		log.Println("Hello from Backend!")
 		c.JSON(http.StatusOK, gin.H{
 			"message": "Hello from Backend!",
 		})

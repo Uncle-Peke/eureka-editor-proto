@@ -35,15 +35,15 @@
             "request": "launch",
             "name": "Next.js: Dev with Debugger",
             "command": "npm run dev",
-            "cwd": "/workspace/frontend"
+            "cwd": "/workspace"
           },
           {
             "type": "node",
             "request": "launch",
             "name": "Next.js: debug server-side",
-            "program": "/workspace/frontend/node_modules/next/dist/bin/next",
+            "program": "/workspace/node_modules/next/dist/bin/next",
             "args": ["dev"],
-            "cwd": "/workspace/frontend",
+            "cwd": "/workspace",
             "console": "integratedTerminal",
             "skipFiles": ["<node_internals>/**"]
           },
@@ -51,9 +51,9 @@
             "type": "node",
             "request": "launch",
             "name": "Next.js: debug client-side",
-            "program": "/workspace/frontend/node_modules/next/dist/bin/next",
+            "program": "/workspace/node_modules/next/dist/bin/next",
             "args": ["dev"],
-            "cwd": "/workspace/frontend",
+            "cwd": "/workspace",
             "console": "integratedTerminal",
             "skipFiles": ["<node_internals>/**"],
             "env": {
