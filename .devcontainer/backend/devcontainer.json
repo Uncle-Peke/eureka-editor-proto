@@ -21,37 +21,6 @@
         "go.gopath": "/go",
         "go.goroot": "/usr/local/go",
         "go.toolsManagement.checkForUpdates": "local"
-      },
-      "launch": {
-        "version": "0.2.0",
-        "configurations": [
-          {
-            "type": "go",
-            "request": "launch",
-            "name": "Go: Launch Package",
-            "mode": "auto",
-            "program": "/workspace/main.go",
-            "cwd": "/workspace"
-          },
-          {
-            "type": "go",
-            "request": "launch",
-            "name": "Go: Launch with Race Detection",
-            "mode": "auto",
-            "program": "/workspace/main.go",
-            "cwd": "/workspace",
-            "buildFlags": "-race"
-          },
-          {
-            "type": "go",
-            "request": "attach",
-            "name": "Go: Attach to Process",
-            "mode": "remote",
-            "remotePath": "/workspace",
-            "port": 2345,
-            "host": "127.0.0.1"
-          }
-        ]
       }
     }
   },

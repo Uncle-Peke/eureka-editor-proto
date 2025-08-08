@@ -26,41 +26,6 @@
         "editor.codeActionsOnSave": {
           "source.fixAll.eslint": "explicit"
         }
-      },
-      "launch": {
-        "version": "0.2.0",
-        "configurations": [
-          {
-            "type": "node-terminal",
-            "request": "launch",
-            "name": "Next.js: Dev with Debugger",
-            "command": "npm run dev",
-            "cwd": "/workspace"
-          },
-          {
-            "type": "node",
-            "request": "launch",
-            "name": "Next.js: debug server-side",
-            "program": "/workspace/node_modules/next/dist/bin/next",
-            "args": ["dev"],
-            "cwd": "/workspace",
-            "console": "integratedTerminal",
-            "skipFiles": ["<node_internals>/**"]
-          },
-          {
-            "type": "node",
-            "request": "launch",
-            "name": "Next.js: debug client-side",
-            "program": "/workspace/node_modules/next/dist/bin/next",
-            "args": ["dev"],
-            "cwd": "/workspace",
-            "console": "integratedTerminal",
-            "skipFiles": ["<node_internals>/**"],
-            "env": {
-              "NODE_OPTIONS": "--inspect"
-            }
-          }
-        ]
       }
     }
   },

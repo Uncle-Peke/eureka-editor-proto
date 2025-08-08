@@ -1,36 +1,15 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      
-      {
-        "type": "node-terminal",
-        "request": "launch",
-        "name": "Next.js: Dev with Debugger",
-        "command": "npm run dev",
-        "cwd": "${workspaceFolder}/frontend"
-      },
-      {
-        "type": "node",
-        "request": "launch",
-        "name": "Next.js: debug server-side",
-        "program": "${workspaceFolder}/frontend/node_modules/next/dist/bin/next",
-        "args": ["dev"],
-        "cwd": "${workspaceFolder}/frontend",
-        "console": "integratedTerminal",
-        "skipFiles": ["<node_internals>/**"]
-      },
-      {
-        "type": "node",
-        "request": "launch",
-        "name": "Next.js: debug client-side",
-        "program": "${workspaceFolder}/frontend/node_modules/next/dist/bin/next",
-        "args": ["dev"],
-        "cwd": "${workspaceFolder}/frontend",
-        "console": "integratedTerminal",
-        "skipFiles": ["<node_internals>/**"],
-        "env": {
-          "NODE_OPTIONS": "--inspect"
-        }
-      }
-    ]
-  }
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Next.js: Debug",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}

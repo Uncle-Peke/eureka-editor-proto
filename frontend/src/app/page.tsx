@@ -1,5 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import DebugButton from "../components/DebugButton";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -19,6 +21,31 @@ export default function Home() {
           </li>
           <li>Save and see your changes instantly.</li>
         </ol>
+
+        {/* デバッグ用ボタン */}
+        <DebugButton />
+
+        {/* ブレークポイントテストページへのリンク */}
+        <div className={styles.ctas}>
+          <Link
+            href="/debug-test"
+            className={styles.primary}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              textDecoration: "none",
+              padding: "12px 24px",
+              backgroundColor: "#0070f3",
+              color: "white",
+              borderRadius: "6px",
+              fontWeight: "500",
+              transition: "background-color 0.2s",
+            }}
+          >
+            🔍 サーバサイドブレークポイントテスト
+          </Link>
+        </div>
 
         <div className={styles.ctas}>
           <a
