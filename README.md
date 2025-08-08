@@ -1,4 +1,4 @@
-# Eureka Editor UX Proto
+# Eureka Editor Proto
 
 モノレポ構成のDevContainer環境で開発するプロジェクトです。
 
