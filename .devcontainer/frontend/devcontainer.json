@@ -79,7 +79,7 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "cd /workspace && npm install",
+  "postCreateCommand": "npm install",
   "remoteUser": "node",
   "shutdownAction": "stopCompose"
 }

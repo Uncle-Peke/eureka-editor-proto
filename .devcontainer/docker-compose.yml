@@ -5,9 +5,9 @@ services:
     labels:
       - devcontainer.metadata
     environment:
-      POSTGRES_DB: eureka_dev
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: app
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Passw0rd!
     ports:
       - "5432:5432"
     volumes:
@@ -33,7 +33,7 @@ services:
       - "8080:8080"
       - "2345:2345"  # Delve debugger port
     environment:
-      - DATABASE_URL=postgres://postgres:password@db:5432/eureka_dev?sslmode=disable
+      - DATABASE_URL=postgres://admin:Passw0rd!@db:5432/app?sslmode=disable
     restart: unless-stopped
     command: ["sleep", "infinity"]
 
@@ -51,6 +51,7 @@ services:
     environment:
       - NODE_ENV=development
     depends_on:
+      - backend
       - db
     restart: unless-stopped
     command: ["sleep", "infinity"]

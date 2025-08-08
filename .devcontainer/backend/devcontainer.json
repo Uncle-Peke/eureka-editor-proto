@@ -20,7 +20,7 @@
         "go.useLanguageServer": true,
         "go.gopath": "/go",
         "go.goroot": "/usr/local/go",
-        "go.toolsManagement.checkForUpdates": "local",
+        "go.toolsManagement.checkForUpdates": "local"
       },
       "launch": {
         "version": "0.2.0",
@@ -66,7 +66,7 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "cd /workspace && go mod tidy && go install -v github.com/go-delve/delve/cmd/dlv@latest",
+  "postCreateCommand": "go mod tidy && go install -v github.com/go-delve/delve/cmd/dlv@latest",
   "remoteUser": "root",
   "shutdownAction": "stopCompose"
 }
