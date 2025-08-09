@@ -1,0 +1,64 @@
+services:
+  db:
+    image: postgres:17
+    container_name: db_local
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Passw0rd!
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d app"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  migrate:
+    image: golang:1.22
+    container_name: migrate_local
+    working_dir: /app
+    environment:
+      - DATABASE_URL=postgres://admin:Passw0rd!@db:5432/app?sslmode=disable
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./migrate:/app
+    command: ["sh", "-c", "go mod download && go run . migrate"]
+    restart: "no"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend_local
+    working_dir: /app
+    environment:
+      - DATABASE_URL=postgres://admin:Passw0rd!@db:5432/app?sslmode=disable
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - "8081:8080"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: runner
+    container_name: frontend_local
+    depends_on:
+      backend:
+        condition: service_started
+      db:
+        condition: service_healthy
+    ports:
+      - "3001:3000"
+    restart: unless-stopped
+
+

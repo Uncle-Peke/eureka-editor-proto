@@ -1,3 +1,17 @@
+.git
+.gitignore
+.DS_Store
+.vscode
+.idea
+node_modules
+.next
+out
+dist
+build
+coverage
+npm-debug.log*
+Dockerfile*
+docker-compose*.yml
 # Node / Next.js build context optimizations
 node_modules
 .next

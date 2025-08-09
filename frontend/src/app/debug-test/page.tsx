@@ -3,14 +3,14 @@
 import { useState } from "react";
 
 export default function DebugTestPage() {
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<unknown | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const testApi = async (
     endpoint: string,
     method: "GET" | "POST" = "GET",
-    body?: any
+    body?: unknown
   ) => {
     setLoading(true);
     setError(null);
@@ -117,7 +117,7 @@ export default function DebugTestPage() {
           </div>
         )}
 
-        {result && (
+        {result !== null && (
           <div className="bg-gray-100 border border-gray-400 text-gray-700 px-4 py-3 rounded">
             <pre className="whitespace-pre-wrap">
               {JSON.stringify(result, null, 2)}

@@ -11,11 +11,18 @@ interface ComplexData {
       created: Date;
       tags: string[];
     };
+    processed?: boolean;
+    processedAt?: Date;
+    computedValue?: string;
   }>;
   metadata: {
     version: string;
     timestamp: Date;
+    lastProcessed?: Date;
+    itemCount?: number;
+    processingVersion?: string;
   };
+  processingStatus?: "pending" | "completed";
 }
 
 // 複雑な処理をシミュレートする関数

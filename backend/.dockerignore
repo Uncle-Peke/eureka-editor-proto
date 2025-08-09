@@ -1,3 +1,27 @@
+# VCS
+.git
+.gitignore
+
+# OS / Editor
+.DS_Store
+.vscode
+.idea
+
+# Build artifacts
+bin
+out
+dist
+build
+tmp
+*.log
+coverage
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+
+# Node (if present)
+node_modules
 # Reduce Go Docker build context
 bin
 build
