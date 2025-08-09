@@ -1,0 +1,25 @@
+{
+  "name": "migrate",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "migrate",
+  "runServices": ["db", "migrate"],
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "overrideCommand": false,
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.Go",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "go.toolsManagement.autoUpdate": true,
+        "go.useLanguageServer": true
+      }
+    }
+  },
+  "postCreateCommand": "go mod download",
+  "postStartCommand": "echo 'DB URL: $DATABASE_URL'"
+}
+
+

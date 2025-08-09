@@ -1,0 +1,45 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    
+        // マイグレーションを適用（up）
+        {
+            "name": "マイグレーション（適用）",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}",
+            "env": {
+                "DATABASE_URL": "${env:DATABASE_URL}"
+            },
+            "args": ["migrate"]
+        },
+        // 直前のバージョンに1ステップだけロールバック
+        {
+            "name": "ロールバック（1ステップ）",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}",
+            "env": {
+                "DATABASE_URL": "${env:DATABASE_URL}"
+            },
+            "args": ["rollback", "1"]
+        },
+        // すべてのマイグレーションを取り消し（down all）
+        {
+            "name": "ロールバック（全て）",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}",
+            "env": {
+                "DATABASE_URL": "${env:DATABASE_URL}"
+            },
+            "args": ["down", "all"]
+        }
+    ]
+}

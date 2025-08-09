@@ -1,0 +1,7 @@
+# Exclude debug binaries and dev files from Docker build context
+__debug_bin*
+.git
+.gitignore
+.vscode
+
+
