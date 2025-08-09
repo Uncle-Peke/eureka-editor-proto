@@ -1,0 +1,10 @@
+services:
+  migrate:
+    # backend の devcontainer 起動時のみ、マイグレーションをワンショット実行
+    command: ["bash", "-lc", "go mod download && go run . migrate"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+

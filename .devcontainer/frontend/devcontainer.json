@@ -1,8 +1,11 @@
 {
   "name": "frontend",
-  "dockerComposeFile": ["../docker-compose.yml"],
+  "dockerComposeFile": [
+    "../docker-compose.yml",
+    "../docker-compose.frontend.override.yml"
+  ],
   "service": "frontend",
-  "runServices": ["frontend", "backend", "db"],
+  "runServices": ["frontend", "backend", "db", "migrate"],
   "workspaceFolder": "/workspace",
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},
