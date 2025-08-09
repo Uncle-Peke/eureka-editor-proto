@@ -1,0 +1,29 @@
+# Node / Next.js build context optimizations
+node_modules
+.next
+.next/cache
+out
+dist
+build
+.turbo
+.swc
+.cache
+
+# Env and configs not needed in image
+.env*
+*.local
+.vercel
+next-env.d.ts
+*.tsbuildinfo
+
+# VCS and editor
+.git
+.gitignore
+.gitattributes
+.github
+.DS_Store
+.idea
+.vscode
+*.log
+coverage
+
