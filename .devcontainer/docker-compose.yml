@@ -10,8 +10,6 @@ services:
       POSTGRES_PASSWORD: Passw0rd!
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U admin -d app"]
@@ -35,7 +33,7 @@ services:
     command: ["sleep", "infinity"]
 
   backend:
-    image: golang:latest # プロダクション環境に合わせてgolang:latestを使用
+    image: mcr.microsoft.com/devcontainers/go:1-1.22-bullseye
     container_name: backend
     labels:
       - devcontainer.metadata
@@ -71,5 +69,3 @@ services:
     restart: unless-stopped
     command: ["sleep", "infinity"]
 
-volumes:
-  postgres_data:

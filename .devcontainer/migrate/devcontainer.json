@@ -4,7 +4,6 @@
   "service": "migrate",
   "runServices": ["db", "migrate"],
   "workspaceFolder": "/workspace",
-  "shutdownAction": "stopCompose",
   "overrideCommand": false,
   "customizations": {
     "vscode": {
@@ -19,7 +18,9 @@
     }
   },
   "postCreateCommand": "go mod download",
-  "postStartCommand": "echo 'DB URL: $DATABASE_URL'"
+  "postStartCommand": "echo 'DB URL: $DATABASE_URL'",
+  "remoteUser": "root",
+  "shutdownAction": "stopCompose"
 }
 
 
