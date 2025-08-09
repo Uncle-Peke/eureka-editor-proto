@@ -1,0 +1,13 @@
+---
+description: Use dev server for run/validation; avoid production builds. This is a Next.js project (not Nuxt).
+globs:
+alwaysApply: true
+---
+
+- このプロジェクトは Next.js です。Nuxt のコマンド（例: `nuxt build`）は使用しないでください。
+- 動作確認・自動検証・プレビューの起動には必ず `npm run dev` を使用してください。
+- 検証目的で `npm run build` や `nuxt build` を自動的に実行しないでください。
+- 本番ビルドが必要な場合のみ、次のコマンドを使用してください: `NODE_ENV=production npm run build`。
+- DevContainer 環境では `NODE_ENV=development` になります。開発中はこの前提で動作確認を行い、ビルド時のみ `NODE_ENV=production` を明示してください。
+
+@package.json
