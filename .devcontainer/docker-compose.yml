@@ -19,8 +19,23 @@ services:
       timeout: 5s
       retries: 5
 
+  migrate:
+    image: mcr.microsoft.com/devcontainers/go:1-1.22-bullseye
+    container_name: migrate
+    labels:
+      - devcontainer.metadata
+    working_dir: /workspace
+    volumes:
+      - ../migrate:/workspace
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://admin:Passw0rd!@db:5432/app?sslmode=disable
+    restart: unless-stopped
+    command: ["sleep", "infinity"]
+
   backend:
-    image: golang:latest
+    image: golang:latest # プロダクション環境に合わせてgolang:latestを使用
     container_name: backend
     labels:
       - devcontainer.metadata
@@ -53,21 +68,6 @@ services:
     depends_on:
       - backend
       - db
-    restart: unless-stopped
-    command: ["sleep", "infinity"]
-
-  migrate:
-    image: mcr.microsoft.com/devcontainers/go:1-1.22-bullseye
-    container_name: migrate
-    labels:
-      - devcontainer.metadata
-    working_dir: /workspace
-    volumes:
-      - ../migrate:/workspace
-    depends_on:
-      - db
-    environment:
-      - DATABASE_URL=postgres://admin:Passw0rd!@db:5432/app?sslmode=disable
     restart: unless-stopped
     command: ["sleep", "infinity"]
 
