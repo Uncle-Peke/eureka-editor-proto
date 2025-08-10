@@ -9,29 +9,37 @@ export default function Header() {
 
   return (
     <header
+      className="bg-primary border-secondary shadow-sm"
       style={{
         position: "fixed",
         top: 0,
         left: 0,
         right: 0,
-        zIndex: 1000,
-        backgroundColor: "white",
-        borderBottom: "1px solid #e9ecef",
-        padding: "8px 16px",
+        zIndex: "var(--z-fixed)",
+        backgroundColor: "var(--color-bg-primary)",
+        borderBottom: "1px solid var(--color-border-secondary)",
+        padding: "var(--spacing-1) var(--spacing-2)",
         width: "100%",
       }}
     >
       <div
         style={{
           position: "relative", // 中央の検索をabsolute配置するための基準
-          height: "56px",
+          height: "var(--header-height)",
           display: "flex",
           alignItems: "center",
         }}
       >
         {/* 左：ロゴ（画面左端に固定） */}
         <div style={{ flex: "0 0 auto" }}>
-          <h1 style={{ fontSize: 20, fontWeight: "bold", color: "#212529" }}>
+          <h1
+            className="text-primary font-bold"
+            style={{
+              fontSize: "var(--font-size-xl)",
+              fontWeight: "var(--font-weight-bold)",
+              color: "var(--color-text-primary)",
+            }}
+          >
             Eureka
           </h1>
         </div>

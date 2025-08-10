@@ -24,7 +24,7 @@ export default function SearchInput({
     onChange?.(newValue);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       onSearch?.(value);
     }
@@ -75,7 +75,7 @@ export default function SearchInput({
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyDown}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         style={inputStyles}

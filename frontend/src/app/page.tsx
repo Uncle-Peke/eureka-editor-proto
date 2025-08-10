@@ -4,7 +4,6 @@ import PostEditor from "@/components/posts/PostEditor";
 import PostList from "@/components/posts/PostList";
 import { useState } from "react";
 import { Post } from "@/types/post";
-import MainLayout from "@/components/layout/MainLayout";
 
 export default function Page() {
   const [posts, setPosts] = useState<Post[]>([
@@ -135,28 +134,16 @@ export default function Page() {
   };
 
   return (
-    <MainLayout>
-      {/* エディターエリア */}
-      <div style={{ padding: "24px", width: "100%", boxSizing: "border-box" }}>
-        <div
-          style={{
-            maxWidth: "100%",
-            width: "100%",
-            overflow: "hidden",
-          }}
-        >
-          <PostEditor
-            content={editorContent}
-            onContentChange={handleEditorChange}
-            onPost={handlePost}
-            username="ユーザー名"
-            userHandle="@username"
-          />
+    <>
+      <PostEditor
+        content={editorContent}
+        onContentChange={handleEditorChange}
+        onPost={handlePost}
+        username="ユーザー名"
+        userHandle="@username"
+      />
 
-          {/* 投稿一覧 */}
-          <PostList posts={posts} />
-        </div>
-      </div>
-    </MainLayout>
+      <PostList posts={posts} />
+    </>
   );
 }

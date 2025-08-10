@@ -1,0 +1,419 @@
+# デザインリファクタリングルール
+
+## 基本方針
+
+### 1. HeadlessUI の優先使用
+
+- **可能な限り HeadlessUI を使用する**
+- HeadlessUI で提供されていない機能のみ、カスタムコンポーネントを作成
+- アクセシビリティとキーボードナビゲーションを最優先に考慮
+
+### 2. コンポーネント設計原則
+
+- **単一責任の原則**: 各コンポーネントは 1 つの明確な責任を持つ
+- **再利用性**: 汎用的で再利用可能なコンポーネントを作成
+- **型安全性**: TypeScript を活用した堅牢な型定義
+- **Props 設計**: 必要最小限の props で最大限の柔軟性を提供
+
+## コンポーネント構造
+
+### 1. UI コンポーネントの配置
+
+```
+src/components/ui/
+├── button/           # 複雑なコンポーネントはフォルダ化
+│   ├── Button.tsx
+│   ├── Button.test.tsx
+│   └── index.ts
+├── modal/
+├── dropdown/
+└── index.ts         # 統一されたエクスポート
+```
+
+### 2. コンポーネントファイルの構造
+
+```typescript
+// 1. 型定義
+interface ComponentProps {
+  // props定義
+}
+
+// 2. コンポーネント本体
+export function Component({ ...props }: ComponentProps) {
+  // ロジック
+  return (
+    // JSX
+  )
+}
+
+// 3. デフォルト値
+Component.defaultProps = {
+  // デフォルト値
+}
+
+// 4. 表示名（開発者ツール用）
+Component.displayName = 'Component'
+```
+
+## HeadlessUI 使用ガイドライン
+
+### 1. 推奨コンポーネント
+
+- **Dialog**: モーダル、ポップオーバー
+- **Listbox**: セレクトボックス、ドロップダウン
+- **Combobox**: 検索可能なセレクトボックス
+- **Switch**: トグルスイッチ
+- **RadioGroup**: ラジオボタングループ
+- **Tabs**: タブコンポーネント
+- **Disclosure**: アコーディオン、展開/折りたたみ
+- **Menu**: ドロップダウンメニュー
+- **Popover**: ツールチップ、ポップオーバー
+
+### 2. カスタマイズ方針
+
+```typescript
+// 良い例: HeadlessUIをベースにカスタマイズ
+import { Listbox } from "@headlessui/react";
+
+export function CustomSelect({ options, value, onChange }) {
+  return (
+    <Listbox value={value} onChange={onChange}>
+      <Listbox.Button className="custom-button-styles">
+        {value?.label || "選択してください"}
+      </Listbox.Button>
+      <Listbox.Options className="custom-options-styles">
+        {options.map((option) => (
+          <Listbox.Option key={option.value} value={option}>
+            {option.label}
+          </Listbox.Option>
+        ))}
+      </Listbox.Options>
+    </Listbox>
+  );
+}
+```
+
+## スタイリング方針
+
+### 1. CSS 設計
+
+- **Tailwind CSS**: 完全禁止
+- **CSS Modules**: 推奨（コンポーネント固有のスタイル）
+- **CSS-in-JS**: 動的なスタイリングが必要な場合のみ
+- **グローバル CSS**: デザイントークンの管理用（`src/app/globals.css`）
+- **デザイントークン**: 可能な限り使用（色、サイズ、スペーシング、タイポグラフィ）
+- **インラインスタイル**: 完全禁止（style 属性の直接使用は不可）
+- **動的スタイリング**: Props でフラグ変数やモードを実装して制御
+
+### 2. クラス名の命名規則
+
+```typescript
+// 良い例: 意味のあるクラス名
+<button className="button button--primary button--large">
+  ボタン
+</button>
+
+// 悪い例: 汎用的すぎるクラス名
+<button className="btn btn-primary">
+  ボタン
+</button>
+```
+
+#### CSS Modules での実装例
+
+```css
+/* Button.module.css */
+.button {
+  padding: var(--spacing-3) var(--spacing-6);
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.button--primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.button--primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.button--large {
+  padding: var(--spacing-4) var(--spacing-8);
+  font-size: var(--text-lg);
+}
+
+.button--danger {
+  background-color: var(--danger);
+  color: var(--danger-foreground);
+}
+
+.button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```
+
+#### 動的スタイリングの実装例
+
+```typescript
+// 良い例: Propsでスタイルを制御
+interface ButtonProps {
+  variant: "primary" | "secondary" | "danger";
+  size: "small" | "medium" | "large";
+  disabled?: boolean;
+  children: React.ReactNode;
+  onClick?: () => void;
+}
+
+export function Button({
+  variant,
+  size,
+  disabled,
+  children,
+  onClick,
+}: ButtonProps) {
+  const buttonClasses = [
+    "button",
+    `button--${variant}`,
+    `button--${size}`,
+    disabled && "button--disabled",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <button className={buttonClasses} disabled={disabled} onClick={onClick}>
+      {children}
+    </button>
+  );
+}
+
+// 悪い例: インラインスタイルの使用（禁止）
+<button style={{ backgroundColor: "red", color: "white" }}>ボタン</button>;
+```
+
+### 3. 余白設計原則
+
+- **8px グリッドシステム**: 要素間の間隔（余白）は必ず 8px の倍数を使用
+- **一貫性**: 同じ種類の要素間は統一された余白を適用
+- **階層性**: 要素の重要度に応じて余白の大きさを調整
+- **デザイントークン**: 余白値は変数として管理し、再利用性を確保
+
+#### 余白の推奨値
+
+```css
+/* デザイントークンでの余白定義 */
+:root {
+  --spacing-1: 8px; /* 最小単位 */
+  --spacing-2: 16px; /* 小さい間隔 */
+  --spacing-3: 24px; /* 標準間隔 */
+  --spacing-4: 32px; /* 大きい間隔 */
+  --spacing-5: 40px; /* セクション間隔 */
+  --spacing-6: 48px; /* 大きなセクション間隔 */
+  --spacing-8: 64px; /* ページ間隔 */
+  --spacing-10: 80px; /* 最大間隔 */
+}
+```
+
+#### 実装例
+
+```css
+/* 良い例: 8pxの倍数を使用 */
+.card {
+  padding: var(--spacing-3); /* 24px */
+  margin-bottom: var(--spacing-4); /* 32px */
+}
+
+.card__header {
+  margin-bottom: var(--spacing-2); /* 16px */
+}
+
+.card__content {
+  margin-bottom: var(--spacing-3); /* 24px */
+}
+
+/* 悪い例: 8pxの倍数以外を使用 */
+.card {
+  padding: 25px; /* 8pxの倍数ではない */
+  margin-bottom: 30px; /* 8pxの倍数ではない */
+}
+```
+
+### 4. レスポンシブデザイン
+
+- **モバイルファースト**: 小さい画面から設計
+- **ブレークポイント**: 標準的なブレークポイントを使用（sm: 640px, md: 768px, lg: 1024px, xl: 1280px）
+- **フレキシブルレイアウト**: CSS Grid と Flexbox を活用
+- **CSS Modules**: メディアクエリを使用したレスポンシブスタイル
+- **デザイントークン**: ブレークポイントも変数として管理
+
+## アクセシビリティ
+
+### 1. 必須要件
+
+- **ARIA 属性**: 適切な ARIA ラベルとロール
+- **キーボードナビゲーション**: Tab、Enter、Space、矢印キーのサポート
+- **フォーカス管理**: 明確なフォーカスインジケーター
+- **スクリーンリーダー対応**: 意味のある HTML 構造
+
+### 2. 実装例
+
+```typescript
+// 良い例: アクセシビリティを考慮
+<button
+  aria-label="メニューを開く"
+  aria-expanded={isOpen}
+  aria-controls="menu-panel"
+  onKeyDown={handleKeyDown}
+  className="menu-button"
+>
+  メニュー
+</button>
+```
+
+#### 対応する CSS
+
+```css
+/* MenuButton.module.css */
+.menu-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring), 0 0 0 4px var(--background);
+}
+```
+
+## パフォーマンス
+
+### 1. 最適化原則
+
+- **メモ化**: React.memo、useMemo、useCallback の適切な使用
+- **遅延読み込み**: 必要に応じて React.lazy を使用
+- **バンドル分割**: 大きなコンポーネントは動的インポート
+
+### 2. 実装例
+
+```typescript
+// 良い例: パフォーマンス最適化
+import { memo, useCallback, useMemo } from "react";
+
+export const OptimizedComponent = memo(({ items, onItemClick }) => {
+  const sortedItems = useMemo(
+    () => items.sort((a, b) => a.name.localeCompare(b.name)),
+    [items]
+  );
+
+  const handleClick = useCallback(
+    (item) => {
+      onItemClick(item);
+    },
+    [onItemClick]
+  );
+
+  return (
+    <ul>
+      {sortedItems.map((item) => (
+        <li key={item.id} onClick={() => handleClick(item)}>
+          {item.name}
+        </li>
+      ))}
+    </ul>
+  );
+});
+```
+
+## テスト方針
+
+### 1. テスト要件
+
+- **ユニットテスト**: 各コンポーネントの動作確認
+- **統合テスト**: コンポーネント間の連携確認
+- **アクセシビリティテスト**: スクリーンリーダー対応確認
+- **ビジュアルリグレッションテスト**: UI 変更の影響確認
+
+### 2. テストファイル配置
+
+```
+src/components/ui/Button/
+├── Button.tsx
+├── Button.test.tsx      # ユニットテスト
+├── Button.stories.tsx   # Storybook
+└── index.ts
+```
+
+## ドキュメント
+
+### 1. 必須ドキュメント
+
+- **README**: コンポーネントの使用方法と例
+- **Storybook**: インタラクティブなコンポーネントカタログ
+- **TypeScript 型定義**: 明確で分かりやすい型定義
+- **コメント**: 複雑なロジックの説明
+
+### 2. ドキュメント例
+
+````typescript
+/**
+ * カスタムボタンコンポーネント
+ *
+ * @param variant - ボタンのスタイルバリエーション
+ * @param size - ボタンのサイズ
+ * @param disabled - 無効化状態
+ * @param children - ボタンの内容
+ * @param onClick - クリック時のコールバック
+ *
+ * @example
+ * ```tsx
+ * <Button variant="primary" size="lg" onClick={handleClick}>
+ *   クリックしてください
+ * </Button>
+ * ```
+ */
+export function Button({ variant, size, disabled, children, onClick }) {
+  // 実装
+}
+````
+
+## 移行計画
+
+### 1. フェーズ 1: 基盤整備
+
+- HeadlessUI の全コンポーネントの調査
+- 既存コンポーネントの HeadlessUI 化
+- **デザイントークンの拡充と統一**
+- 共通スタイルシステムの構築
+
+### 2. フェーズ 2: コンポーネント刷新
+
+- UI コンポーネントの段階的リファクタリング
+- アクセシビリティの向上
+- パフォーマンス最適化
+
+### 3. フェーズ 3: 統合とテスト
+
+- 全体的な一貫性の確認
+- 包括的なテストの実装
+- ドキュメントの整備
+
+## 品質チェックリスト
+
+- [ ] HeadlessUI を使用しているか
+- [ ] アクセシビリティ要件を満たしているか
+- [ ] TypeScript の型定義が適切か
+- [ ] **Tailwind CSS を使用していないか**
+- [ ] CSS Modules または適切なスタイリング手法を使用しているか
+- [ ] **デザイントークンを使用しているか**
+- [ ] **インラインスタイル（style 属性）を使用していないか**
+- [ ] **動的スタイリングは Props でフラグ変数やモードを実装しているか**
+- [ ] **余白は 8px の倍数を使用しているか**
+- [ ] **一貫した余白システムが適用されているか**
+- [ ] レスポンシブデザインに対応しているか
+- [ ] パフォーマンスが最適化されているか
+- [ ] テストが実装されているか
+- [ ] ドキュメントが整備されているか
+- [ ] 一貫したスタイリングが適用されているか
+      alwaysApply: true
+
+---

@@ -1,56 +1,32 @@
 "use client";
 
-import { useScrollToTop } from "../../hooks/useScrollToTop";
+import {
+  HomeIcon,
+  ProfileIcon,
+  SearchIcon,
+  NotificationIcon,
+} from "@/components/ui/icon";
+import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
 
 export default function Sidebar() {
-  const { isVisible, scrollToTop } = useScrollToTop();
-
   const navItems = [
     {
-      icon: (
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-        />
-      ),
+      icon: <HomeIcon size={20} />,
       label: "ホーム",
       href: "#",
     },
     {
-      icon: (
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-        />
-      ),
+      icon: <ProfileIcon size={20} />,
       label: "プロフィール",
       href: "#",
     },
     {
-      icon: (
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-        />
-      ),
+      icon: <SearchIcon size={20} />,
       label: "検索",
       href: "#",
     },
     {
-      icon: (
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M15 17h5l-5 5v-5zM4.19 4.19A4 4 0 004 6v12a4 4 0 004 4h12a4 4 0 004-4V6a4 4 0 00-4-4H8a4 4 0 00-2.81 1.19z"
-        />
-      ),
+      icon: <NotificationIcon size={20} />,
       label: "通知",
       href: "#",
     },
@@ -58,68 +34,70 @@ export default function Sidebar() {
 
   return (
     <aside
+      className="bg-primary border-secondary"
       style={{
         position: "fixed",
-        top: "56px", // ヘッダーの高さ分下に配置
+        top: "var(--header-height)",
         left: 0,
-        zIndex: 999,
-        width: "200px",
-        minWidth: "200px",
-        maxWidth: "200px",
-        backgroundColor: "white",
-        borderRight: "1px solid #e9ecef",
-        minHeight: "calc(100vh - 56px)", // ヘッダーの高さ分を引く
-        padding: "16px",
+        zIndex: "var(--z-sticky)",
+        width: "var(--sidebar-width)",
+        minWidth: "var(--sidebar-width)",
+        maxWidth: "var(--sidebar-width)",
+        backgroundColor: "var(--color-bg-primary)",
+        borderRight: "1px solid var(--color-border-secondary)",
+        minHeight: `calc(100vh - var(--header-height))`,
+        padding: "var(--spacing-2)",
         flexShrink: 0,
       }}
     >
       <nav>
-        <div style={{ marginBottom: "24px" }}>
+        <div style={{ marginBottom: "var(--spacing-3)" }}>
           <h3
+            className="text-muted font-semibold"
             style={{
-              fontSize: "12px",
-              fontWeight: "600",
-              color: "#6c757d",
+              fontSize: "var(--font-size-xs)",
+              fontWeight: "var(--font-weight-semibold)",
+              color: "var(--color-text-muted)",
               textTransform: "uppercase",
               letterSpacing: "0.05em",
-              marginBottom: "12px",
+              marginBottom: "var(--spacing-2)",
             }}
           >
             メニュー
           </h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "var(--spacing-1)",
+            }}
+          >
             {navItems.map((item, index) => (
               <a
                 key={index}
                 href={item.href}
+                className="text-secondary transition-normal rounded-md"
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  padding: "8px 12px",
-                  color: "#495057",
+                  padding: "var(--spacing-1) var(--spacing-2)",
+                  color: "var(--color-text-secondary)",
                   textDecoration: "none",
-                  borderRadius: "6px",
+                  borderRadius: "var(--radius-md)",
                   cursor: "pointer",
+                  transition: "all var(--transition-normal)",
                 }}
                 onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#f8f9fa")
+                  (e.currentTarget.style.backgroundColor =
+                    "var(--color-bg-secondary)")
                 }
                 onMouseLeave={(e) =>
                   (e.currentTarget.style.backgroundColor = "transparent")
                 }
               >
-                <svg
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    marginRight: "12px",
-                  }}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <div style={{ marginRight: "var(--spacing-2)" }}>
                   {item.icon}
-                </svg>
+                </div>
                 {item.label}
               </a>
             ))}
@@ -127,61 +105,7 @@ export default function Sidebar() {
         </div>
 
         {/* 一番上に戻るボタン */}
-        <div
-          style={{
-            position: "fixed",
-            bottom: "24px",
-            left: "175px", // 左サイドメニューの右端（200px - 24px = 176pxの位置）
-            opacity: isVisible ? 1 : 0,
-            visibility: isVisible ? "visible" : "hidden",
-            transition: "opacity 0.3s ease-in-out, visibility 0.3s ease-in-out",
-            zIndex: 1000,
-          }}
-        >
-          <button
-            onClick={scrollToTop}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "48px",
-              height: "48px",
-              backgroundColor: "#007bff",
-              color: "white",
-              border: "none",
-              borderRadius: "50%",
-              cursor: "pointer",
-              boxShadow: "0 4px 12px rgba(0, 123, 255, 0.3)",
-              transition: "all 0.2s ease-in-out",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "#0056b3";
-              e.currentTarget.style.transform = "scale(1.1)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "#007bff";
-              e.currentTarget.style.transform = "scale(1)";
-            }}
-            title="一番上に戻る"
-          >
-            <svg
-              style={{
-                width: "20px",
-                height: "20px",
-              }}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 10l7-7m0 0l7 7m-7-7v18"
-              />
-            </svg>
-          </button>
-        </div>
+        <ScrollToTopButton />
       </nav>
     </aside>
   );
