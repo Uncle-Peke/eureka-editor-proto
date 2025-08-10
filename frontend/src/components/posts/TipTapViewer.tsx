@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -15,6 +15,8 @@ export default function TipTapViewer({
   content,
   className,
 }: TipTapViewerProps) {
+  const [isClient, setIsClient] = useState(false);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -36,12 +38,17 @@ export default function TipTapViewer({
     content: content || "<p></p>",
     editable: false, // 読み取り専用
     autofocus: false,
-    immediatelyRender: true, // SSR対応のためtrueに変更
+    immediatelyRender: false, // SSR対応のためfalseに設定
   });
+
+  // クライアントサイドでのみレンダリング
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // クライアントサイドでのみコンテンツを更新
   useEffect(() => {
-    if (editor && content) {
+    if (editor && content && isClient) {
       console.log("TipTapViewer: Setting content:", content);
       // HTMLコンテンツを安全に設定
       try {
@@ -53,15 +60,20 @@ export default function TipTapViewer({
         editor.commands.setContent("<p></p>");
       }
     }
-  }, [editor, content]);
+  }, [editor, content, isClient]);
 
   // エディターの状態を監視
   useEffect(() => {
-    if (editor) {
+    if (editor && isClient) {
       console.log("TipTapViewer: Editor initialized");
       console.log("TipTapViewer: Current content:", editor.getHTML());
     }
-  }, [editor]);
+  }, [editor, isClient]);
+
+  // クライアントサイドでない場合は空のdivを表示
+  if (!isClient) {
+    return <div className={className} />;
+  }
 
   return (
     <div className={className}>

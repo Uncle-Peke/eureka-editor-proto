@@ -17,7 +17,7 @@ export default function MainContent({ children }: MainContentProps) {
         overflow: "auto",
         width: "100%",
         boxSizing: "border-box",
-        padding: "var(--component-padding)",
+        padding: "var(--spacing-6)",
       }}
     >
       <div

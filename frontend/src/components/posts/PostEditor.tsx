@@ -22,15 +22,21 @@ export default function PostEditor({
         style={{
           display: "flex",
           alignItems: "flex-start",
-          gap: "12px",
-          marginBottom: "20px",
+          gap: "var(--spacing-3)",
+          marginBottom: "var(--spacing-5)",
         }}
       >
         <Avatar fallbackText={username.charAt(0)} />
         <div
           style={{ display: "flex", alignItems: "center", minHeight: "40px" }}
         >
-          <p style={{ fontWeight: "500", color: "#212529", margin: 0 }}>
+          <p
+            style={{
+              fontWeight: "500",
+              color: "var(--color-text-primary)",
+              margin: 0,
+            }}
+          >
             {username}
           </p>
         </div>
@@ -50,16 +56,16 @@ export default function PostEditor({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          paddingTop: "16px",
-          borderTop: "1px solid #f8f9fa",
-          marginTop: "16px",
+          paddingTop: "var(--spacing-4)",
+          borderTop: "1px solid var(--color-border-secondary)",
+          marginTop: "var(--spacing-4)",
         }}
       >
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "8px",
+            gap: "var(--spacing-2)",
           }}
         >
           <IconButton

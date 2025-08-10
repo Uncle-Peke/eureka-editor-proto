@@ -18,18 +18,18 @@
 }
 
 .username {
-  font-weight: var(--font-medium);
-  color: var(--foreground);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
   margin: 0;
 }
 
 .userHandle,
 .timestamp {
-  font-size: var(--text-sm);
-  color: var(--muted-foreground);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
 }
 
 .postContent {
-  color: var(--foreground);
-  margin-top: var(--spacing-1);
+  color: var(--color-text-primary);
+  margin-top: var(--spacing-2);
 }
