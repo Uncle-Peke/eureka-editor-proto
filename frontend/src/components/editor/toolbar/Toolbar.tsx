@@ -64,7 +64,7 @@ export default function Toolbar({ editor }: ToolbarProps) {
         disabled={!editor?.can().chain().focus().toggleBold().run()}
         title="Bold"
       >
-        Bold
+        B
       </MenuButton>
       <MenuButton
         onClick={() => editor?.chain().focus().toggleItalic().run()}
@@ -72,7 +72,7 @@ export default function Toolbar({ editor }: ToolbarProps) {
         disabled={!editor?.can().chain().focus().toggleItalic().run()}
         title="Italic"
       >
-        Italic
+        I
       </MenuButton>
       <MenuButton
         onClick={() => editor?.chain().focus().toggleStrike().run()}
@@ -80,7 +80,7 @@ export default function Toolbar({ editor }: ToolbarProps) {
         disabled={!editor?.can().chain().focus().toggleStrike().run()}
         title="Strike"
       >
-        Strike
+        S
       </MenuButton>
       <span style={{ margin: "0 8px", color: "#d1d5db" }}>|</span>
       <MenuButton
@@ -88,7 +88,7 @@ export default function Toolbar({ editor }: ToolbarProps) {
         active={!!editor?.isActive("paragraph")}
         title="Paragraph"
       >
-        Paragraph
+        p
       </MenuButton>
       {headingLevels.map((level) => (
         <MenuButton

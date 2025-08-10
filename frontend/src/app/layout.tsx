@@ -2,8 +2,8 @@ import "./globals.css";
 import type { ReactNode } from "react";
 
 export const metadata = {
-  title: "トップページ",
-  description: "最小構成のトップページ",
+  title: "Eureka",
+  description: "Eureka",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import Toolbar from "./Toolbar";
+import Toolbar from "./toolbar/Toolbar";
 import ResizeHandle from "./ResizeHandle";
 import EditorStyles from "./EditorStyles";
 
