@@ -1,5 +1,5 @@
 ---
-description: 各ディレクトリに対するコンポーネントの配置ガイド
+description: 各ディレクトリに対するコンポーネントの機能配置ガイド
 alwaysApply: false
 ---
 
@@ -32,8 +32,9 @@ alwaysApply: false
 7. src/utils/
    dateUtils.ts - 日付関連のユーティリティ
    formatUtils.ts - フォーマット関連のユーティリティ
-   この構造により、以下のメリットが得られます：
-   再利用性の向上 - UI コンポーネントを他のページでも使用可能
-   保守性の向上 - 各コンポーネントの責任が明確
-   テスタビリティの向上 - 個別のコンポーネントをテストしやすい
-   開発効率の向上 - チーム開発時に作業分担しやすい
+8. src/components/editor/
+   TipTapEditor.tsx - TipTap ベースのリッチテキストエディター
+   HtmlPreview.tsx - HTML プレビュー表示コンポーネント
+   EditorStyles.tsx - エディター用のスタイル定義
+   ResizeHandle.tsx - エディターのリサイズハンドル
+   toolbar/ - エディターツールバー関連コンポーネント
