@@ -54,8 +54,6 @@ export default function IconButton({
     border: "none",
     borderRadius: "6px",
     cursor: "pointer",
-    backgroundColor: "transparent",
-    color: "#6c757d",
     transition: "all 0.2s ease-in-out",
     ...sizeStyles[size],
     ...variants[variant],
