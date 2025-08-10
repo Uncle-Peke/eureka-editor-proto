@@ -1,0 +1,39 @@
+---
+description: 各ディレクトリに対するコンポーネントの配置ガイド
+alwaysApply: false
+---
+
+各ディレクトリの役割
+
+1. src/components/layout/
+   Header.tsx - ヘッダーコンポーネント
+   Sidebar.tsx - 左サイドバー
+   RightSidebar.tsx - 右サイドバー
+   MainLayout.tsx - 全体のレイアウト構造
+2. src/components/ui/
+   Button.tsx - カスタムボタンコンポーネント
+   Card.tsx - カードコンポーネント
+   Avatar.tsx - アバター画像コンポーネント
+   SearchInput.tsx - 検索入力フィールド
+3. src/components/posts/
+   PostEditor.tsx - 投稿エディター
+   PostCard.tsx - 個別の投稿表示
+   PostList.tsx - 投稿一覧
+   PostActions.tsx - いいね、リポスト、返信ボタン
+4. src/components/navigation/
+   NavItem.tsx - ナビゲーションアイテム
+   NavMenu.tsx - ナビゲーションメニュー
+5. src/types/
+   post.ts - 投稿関連の型定義
+   user.ts - ユーザー関連の型定義
+6. src/styles/
+   globals.css - グローバルスタイル
+   components.css - コンポーネント固有のスタイル
+7. src/utils/
+   dateUtils.ts - 日付関連のユーティリティ
+   formatUtils.ts - フォーマット関連のユーティリティ
+   この構造により、以下のメリットが得られます：
+   再利用性の向上 - UI コンポーネントを他のページでも使用可能
+   保守性の向上 - 各コンポーネントの責任が明確
+   テスタビリティの向上 - 個別のコンポーネントをテストしやすい
+   開発効率の向上 - チーム開発時に作業分担しやすい
