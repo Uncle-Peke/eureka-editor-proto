@@ -85,7 +85,7 @@ export default function RightSidebar() {
             {recommendedUsers.map((user, index) => (
               <div
                 key={index}
-                style={{ display: "flex", alignItems: "center", gap: "12px" }}
+                style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}
               >
                 <div
                   style={{
@@ -95,13 +95,15 @@ export default function RightSidebar() {
                     borderRadius: "50%",
                   }}
                 ></div>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontWeight: "500", color: "#212529" }}>
-                    {user.username}
-                  </p>
-                  <p style={{ fontSize: "14px", color: "#6c757d" }}>
-                    {user.handle}
-                  </p>
+                <div style={{ flex: 1, display: "flex", alignItems: "center", minHeight: "40px" }}>
+                  <div>
+                    <p style={{ fontWeight: "500", color: "#212529", margin: 0 }}>
+                      {user.username}
+                    </p>
+                    <p style={{ fontSize: "14px", color: "#6c757d", margin: "2px 0 0 0" }}>
+                      {user.handle}
+                    </p>
+                  </div>
                 </div>
                 <button
                   style={{

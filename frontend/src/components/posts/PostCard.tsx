@@ -13,6 +13,7 @@ export default function PostCard({ post }: PostCardProps) {
         display: "flex",
         alignItems: "flex-start",
         gap: "12px",
+        padding: "16px",
       }}
     >
       <Avatar fallbackText={post.username.charAt(0)} />
@@ -22,9 +23,12 @@ export default function PostCard({ post }: PostCardProps) {
             display: "flex",
             alignItems: "center",
             gap: "8px",
+            minHeight: "40px",
           }}
         >
-          <p style={{ fontWeight: "500", color: "#212529" }}>{post.username}</p>
+          <p style={{ fontWeight: "500", color: "#212529", margin: 0 }}>
+            {post.username}
+          </p>
           <span style={{ fontSize: "14px", color: "#6c757d" }}>
             {post.userHandle}
           </span>

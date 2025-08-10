@@ -21,15 +21,18 @@ export default function PostEditor({
       <div
         style={{
           display: "flex",
-          alignItems: "center",
+          alignItems: "flex-start",
           gap: "12px",
           marginBottom: "20px",
         }}
       >
         <Avatar fallbackText={username.charAt(0)} />
-        <div>
-          <p style={{ fontWeight: "500", color: "#212529" }}>{username}</p>
-          <p style={{ fontSize: "14px", color: "#6c757d" }}>新しい投稿を作成</p>
+        <div
+          style={{ display: "flex", alignItems: "center", minHeight: "40px" }}
+        >
+          <p style={{ fontWeight: "500", color: "#212529", margin: 0 }}>
+            {username}
+          </p>
         </div>
       </div>
 
