@@ -33,8 +33,7 @@ export default function ResizeHandle({ onMouseDown }: ResizeHandleProps) {
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <polyline points="22,2 13,11 2,22" />
-        <polyline points="9,2 2,2 2,9" />
+        <path d="M21 15L15 21M21 8L8 21" />
       </svg>
     </div>
   );
