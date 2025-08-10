@@ -1,0 +1,35 @@
+/* PostCard.module.css */
+.card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+}
+
+.content {
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  min-height: 40px;
+}
+
+.username {
+  font-weight: var(--font-medium);
+  color: var(--foreground);
+  margin: 0;
+}
+
+.userHandle,
+.timestamp {
+  font-size: var(--text-sm);
+  color: var(--muted-foreground);
+}
+
+.postContent {
+  color: var(--foreground);
+  margin-top: var(--spacing-1);
+}

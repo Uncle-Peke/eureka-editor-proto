@@ -69,6 +69,12 @@ export default function Button({
     ...baseStyles,
     ...variants[variant],
     ...sizes[size],
+    ...(props.disabled && {
+      backgroundColor: "#e9ecef",
+      color: "#6c757d",
+      cursor: "not-allowed",
+      opacity: 0.6,
+    }),
   };
 
   return (

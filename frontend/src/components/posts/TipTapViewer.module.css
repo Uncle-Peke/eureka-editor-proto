@@ -1,0 +1,185 @@
+/* TipTapViewer.module.css */
+.viewer {
+  width: 100%;
+  max-width: none;
+}
+
+.viewer :global(.ProseMirror) {
+  outline: none;
+}
+
+/* 見出しのスタイリング */
+.viewer :global(.ProseMirror h1) {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--foreground);
+  margin: var(--spacing-8) 0 var(--spacing-6) 0;
+  line-height: var(--leading-tight);
+}
+
+.viewer :global(.ProseMirror h1:first-child) {
+  margin-top: 0;
+}
+
+.viewer :global(.ProseMirror h2) {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  color: var(--foreground);
+  margin: var(--spacing-6) 0 var(--spacing-4) 0;
+  line-height: var(--leading-tight);
+}
+
+.viewer :global(.ProseMirror h2:first-child) {
+  margin-top: 0;
+}
+
+.viewer :global(.ProseMirror h3) {
+  font-size: var(--text-xl);
+  font-weight: var(--font-medium);
+  color: var(--foreground);
+  margin: var(--spacing-5) 0 var(--spacing-3) 0;
+  line-height: var(--leading-tight);
+}
+
+.viewer :global(.ProseMirror h3:first-child) {
+  margin-top: 0;
+}
+
+/* 段落のスタイリング */
+.viewer :global(.ProseMirror p) {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--muted-foreground);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.viewer :global(.ProseMirror p:last-child) {
+  margin-bottom: 0;
+}
+
+/* リストのスタイリング */
+.viewer :global(.ProseMirror ul),
+.viewer :global(.ProseMirror ol) {
+  margin: var(--spacing-4) 0;
+  padding-left: var(--spacing-6);
+}
+
+.viewer :global(.ProseMirror li) {
+  color: var(--muted-foreground);
+  margin-bottom: var(--spacing-2);
+}
+
+/* 引用のスタイリング */
+.viewer :global(.ProseMirror blockquote) {
+  border-left: 4px solid var(--primary);
+  padding: var(--spacing-2) var(--spacing-4);
+  margin: var(--spacing-4) 0;
+  background-color: var(--muted);
+  font-style: italic;
+}
+
+/* コードのスタイリング */
+.viewer :global(.ProseMirror code) {
+  background-color: var(--muted);
+  color: var(--foreground);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius);
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+}
+
+.viewer :global(.ProseMirror pre) {
+  background-color: var(--muted);
+  color: var(--foreground);
+  padding: var(--spacing-4);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  margin: var(--spacing-4) 0;
+}
+
+.viewer :global(.ProseMirror pre code) {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+/* リンクのスタイリング */
+.viewer :global(.ProseMirror a) {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+.viewer :global(.ProseMirror a:hover) {
+  color: var(--primary-hover);
+}
+
+/* 強調のスタイリング */
+.viewer :global(.ProseMirror strong) {
+  font-weight: var(--font-semibold);
+  color: var(--foreground);
+}
+
+.viewer :global(.ProseMirror em) {
+  font-style: italic;
+  color: var(--foreground);
+}
+
+/* 区切り線のスタイリング */
+.viewer :global(.ProseMirror hr) {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: var(--spacing-8) 0;
+}
+
+/* テーブルのスタイリング */
+.viewer :global(.ProseMirror table) {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  margin: var(--spacing-4) 0;
+}
+
+.viewer :global(.ProseMirror th),
+.viewer :global(.ProseMirror td) {
+  border: 1px solid var(--border);
+  padding: var(--spacing-2) var(--spacing-3);
+  text-align: left;
+}
+
+.viewer :global(.ProseMirror th) {
+  background-color: var(--muted);
+  font-weight: var(--font-semibold);
+  color: var(--foreground);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .viewer :global(.ProseMirror h1) {
+    font-size: var(--text-2xl);
+    margin: var(--spacing-6) 0 var(--spacing-4) 0;
+  }
+
+  .viewer :global(.ProseMirror h2) {
+    font-size: var(--text-xl);
+    margin: var(--spacing-5) 0 var(--spacing-3) 0;
+  }
+
+  .viewer :global(.ProseMirror h3) {
+    font-size: var(--text-lg);
+    margin: var(--spacing-4) 0 var(--spacing-2) 0;
+  }
+
+  .viewer :global(.ProseMirror p) {
+    font-size: var(--text-base);
+    margin-bottom: var(--spacing-3);
+  }
+
+  .viewer :global(.ProseMirror ul),
+  .viewer :global(.ProseMirror ol) {
+    margin: var(--spacing-3) 0;
+    padding-left: var(--spacing-4);
+  }
+}

@@ -97,7 +97,9 @@ export default function PostEditor({
             }
           />
         </div>
-        <Button onClick={onPost}>投稿</Button>
+        <Button onClick={onPost} disabled={!content.trim()}>
+          投稿
+        </Button>
       </div>
     </Card>
   );

@@ -5,17 +5,16 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import EditorStyles from "@/components/editor/EditorStyles";
+import styles from "./TipTapViewer.module.css";
 
 type TipTapViewerProps = {
   content: string;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 export default function TipTapViewer({
   content,
   className,
-  style,
 }: TipTapViewerProps) {
   const editor = useEditor({
     extensions: [
@@ -41,8 +40,10 @@ export default function TipTapViewer({
     }
   }, [editor, content]);
 
+  const viewerClasses = [styles.viewer, className].filter(Boolean).join(" ");
+
   return (
-    <div className={className} style={style}>
+    <div className={viewerClasses}>
       <EditorContent editor={editor} />
       <EditorStyles />
     </div>

@@ -47,7 +47,7 @@ export default function TipTapEditor({
     ],
     content: initialContent ?? "<p></p>",
     editable,
-    autofocus: true,
+    autofocus: false,
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       if (onChange) onChange(editor.getHTML());
@@ -112,6 +112,11 @@ export default function TipTapEditor({
             minHeight: `${editorHeight}px`,
             height: `${editorHeight}px`,
             overflow: "auto",
+          }}
+          onClick={() => {
+            if (editor && editable) {
+              editor.commands.focus();
+            }
           }}
         />
 

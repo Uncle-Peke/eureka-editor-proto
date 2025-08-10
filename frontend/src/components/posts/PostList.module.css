@@ -1,0 +1,12 @@
+/* PostList.module.css */
+.container {
+  margin-top: var(--spacing-6);
+}
+
+.postItem {
+  margin-bottom: var(--spacing-4);
+}
+
+.postItem:last-child {
+  margin-bottom: 0;
+}
