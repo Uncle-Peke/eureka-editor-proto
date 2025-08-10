@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import SearchInput from "@/components/ui/SearchInput";
 
 export default function Header() {
-  const [searchFocused, setSearchFocused] = useState(false);
+  const handleSearch = (value: string) => {
+    console.log("検索:", value);
+    // 検索処理をここに実装
+  };
 
   return (
     <header
@@ -33,49 +36,7 @@ export default function Header() {
 
         {/* 中央：検索窓 */}
         <div style={{ flex: "1", maxWidth: "600px", margin: "0 24px" }}>
-          <div
-            style={{
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <svg
-              style={{
-                position: "absolute",
-                left: "12px",
-                width: "20px",
-                height: "20px",
-                color: "#6c757d",
-              }}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-            <input
-              type="text"
-              placeholder="検索..."
-              style={{
-                width: "100%",
-                padding: "10px 12px 10px 44px",
-                border: "1px solid #dee2e6",
-                borderRadius: "20px",
-                fontSize: "14px",
-                backgroundColor: searchFocused ? "white" : "#e9ecef",
-                borderColor: searchFocused ? "#0d6efd" : "#dee2e6",
-                outline: "none",
-              }}
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
-            />
-          </div>
+          <SearchInput placeholder="検索..." onSearch={handleSearch} />
         </div>
 
         {/* 右側：将来的な要素用 */}

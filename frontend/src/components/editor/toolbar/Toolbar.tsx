@@ -82,7 +82,6 @@ export default function Toolbar({ editor }: ToolbarProps) {
       >
         S
       </MenuButton>
-      <span style={{ margin: "0 8px", color: "#d1d5db" }}>|</span>
       <MenuButton
         onClick={() => editor?.chain().focus().setParagraph().run()}
         active={!!editor?.isActive("paragraph")}
@@ -100,20 +99,19 @@ export default function Toolbar({ editor }: ToolbarProps) {
           H{level}
         </MenuButton>
       ))}
-      <span style={{ margin: "0 8px", color: "#d1d5db" }}>|</span>
       <MenuButton
         onClick={() => editor?.chain().focus().toggleBulletList().run()}
         active={!!editor?.isActive("bulletList")}
         title="Bullet List"
       >
-        • List
+        • ~
       </MenuButton>
       <MenuButton
         onClick={() => editor?.chain().focus().toggleOrderedList().run()}
         active={!!editor?.isActive("orderedList")}
         title="Ordered List"
       >
-        1. List
+        1. ~
       </MenuButton>
       <MenuButton
         onClick={() => editor?.chain().focus().toggleBlockquote().run()}
@@ -135,7 +133,6 @@ export default function Toolbar({ editor }: ToolbarProps) {
       >
         ―
       </MenuButton>
-      <span className="mx-2 text-gray-300">|</span>
       <MenuButton
         onClick={() => editor?.chain().focus().undo().run()}
         title="Undo"
