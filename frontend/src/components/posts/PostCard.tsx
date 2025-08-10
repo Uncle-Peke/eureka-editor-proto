@@ -1,6 +1,7 @@
 import { Avatar } from "@/components/ui";
 import { Post } from "@/types/post";
 import PostActions from "./PostActions";
+import TipTapViewer from "./TipTapViewer";
 
 interface PostCardProps {
   post: Post;
@@ -36,7 +37,11 @@ export default function PostCard({ post }: PostCardProps) {
             ・{post.timestamp}
           </span>
         </div>
-        <p style={{ color: "#212529", marginTop: "4px" }}>{post.content}</p>
+        <TipTapViewer
+          content={post.content}
+          className="post-content"
+          style={{ color: "#212529", marginTop: "4px" }}
+        />
         <PostActions
           replies={post.replies}
           reposts={post.reposts}

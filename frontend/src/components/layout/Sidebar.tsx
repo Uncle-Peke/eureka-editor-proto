@@ -1,6 +1,10 @@
 "use client";
 
+import { useScrollToTop } from "../../hooks/useScrollToTop";
+
 export default function Sidebar() {
+  const { isVisible, scrollToTop } = useScrollToTop();
+
   const navItems = [
     {
       icon: (
@@ -120,6 +124,63 @@ export default function Sidebar() {
               </a>
             ))}
           </div>
+        </div>
+
+        {/* 一番上に戻るボタン */}
+        <div
+          style={{
+            position: "fixed",
+            bottom: "24px",
+            left: "175px", // 左サイドメニューの右端（200px - 24px = 176pxの位置）
+            opacity: isVisible ? 1 : 0,
+            visibility: isVisible ? "visible" : "hidden",
+            transition: "opacity 0.3s ease-in-out, visibility 0.3s ease-in-out",
+            zIndex: 1000,
+          }}
+        >
+          <button
+            onClick={scrollToTop}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "48px",
+              height: "48px",
+              backgroundColor: "#007bff",
+              color: "white",
+              border: "none",
+              borderRadius: "50%",
+              cursor: "pointer",
+              boxShadow: "0 4px 12px rgba(0, 123, 255, 0.3)",
+              transition: "all 0.2s ease-in-out",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "#0056b3";
+              e.currentTarget.style.transform = "scale(1.1)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "#007bff";
+              e.currentTarget.style.transform = "scale(1)";
+            }}
+            title="一番上に戻る"
+          >
+            <svg
+              style={{
+                width: "20px",
+                height: "20px",
+              }}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 10l7-7m0 0l7 7m-7-7v18"
+              />
+            </svg>
+          </button>
         </div>
       </nav>
     </aside>

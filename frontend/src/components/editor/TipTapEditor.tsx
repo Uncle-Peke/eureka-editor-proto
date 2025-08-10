@@ -9,6 +9,7 @@ import ResizeHandle from "./ResizeHandle";
 import EditorStyles from "./EditorStyles";
 
 type TipTapEditorProps = {
+  content?: string;
   initialContent?: string;
   onChange?: (html: string) => void;
   editable?: boolean;
@@ -19,6 +20,7 @@ type TipTapEditorProps = {
 };
 
 export default function TipTapEditor({
+  content,
   initialContent,
   onChange,
   editable = true,
@@ -51,6 +53,13 @@ export default function TipTapEditor({
       if (onChange) onChange(editor.getHTML());
     },
   });
+
+  // contentプロパティの変更を監視してエディターの内容を更新
+  useEffect(() => {
+    if (editor && content !== undefined) {
+      editor.commands.setContent(content);
+    }
+  }, [editor, content]);
 
   // 同期的に editable の変更を反映
   useEffect(() => {

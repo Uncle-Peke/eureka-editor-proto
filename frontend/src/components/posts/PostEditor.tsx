@@ -38,6 +38,7 @@ export default function PostEditor({
 
       {/* Notionっぽいエディター */}
       <TipTapEditor
+        content={content}
         placeholder="何か投稿してみましょう..."
         onChange={onContentChange}
         minHeight={120}
