@@ -55,11 +55,14 @@ export default function Sidebar() {
   return (
     <aside
       style={{
-        width: "256px",
+        width: "200px",
+        minWidth: "200px",
+        maxWidth: "200px",
         backgroundColor: "white",
         borderRight: "1px solid #e9ecef",
         minHeight: "calc(100vh - 60px)",
         padding: "16px",
+        flexShrink: 0,
       }}
     >
       <nav>

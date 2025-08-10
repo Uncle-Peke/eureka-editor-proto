@@ -47,8 +47,16 @@ export default function Page() {
   return (
     <MainLayout>
       {/* エディターエリア */}
-      <div style={{ padding: "24px" }}>
-        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+      <div style={{ padding: "24px", width: "100%" }}>
+        <div
+          style={{
+            maxWidth: "100%",
+            margin: "0 auto",
+            width: "100%",
+            padding: "0 16px 0 16px",
+            paddingRight: "32px",
+          }}
+        >
           <PostEditor
             content={editorContent}
             onContentChange={handleEditorChange}

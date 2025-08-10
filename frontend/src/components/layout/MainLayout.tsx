@@ -16,16 +16,19 @@ export default function MainLayout({ children }: MainLayoutProps) {
       <Header />
 
       {/* メインコンテンツエリア */}
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", width: "100vw", minWidth: "100%" }}>
         {/* 左サイドバー */}
         <Sidebar />
 
         {/* 中央のメインコンテンツ */}
         <main
           style={{
-            flex: 1,
+            flex: "1 1 auto",
             backgroundColor: "white",
             minHeight: "calc(100vh - 60px)",
+            minWidth: 0,
+            overflow: "hidden",
+            paddingRight: "24px",
           }}
         >
           {children}
