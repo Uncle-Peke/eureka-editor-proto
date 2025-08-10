@@ -24,7 +24,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
           marginTop: `${headerH}px`,
           minHeight: `calc(100vh - ${headerH}px)`,
           alignItems: "start",
-          overflow: "hidden",
+          overflow: "visible",
+          paddingRight: "24px",
         }}
       >
         {/* 左サイドバー（sticky / fixedは使わない） */}
@@ -37,8 +38,10 @@ export default function MainLayout({ children }: MainLayoutProps) {
           style={{
             background: "white",
             minWidth: 0,
-            overflow: "hidden",
+            maxWidth: "100%",
+            overflow: "auto",
             width: "100%",
+            boxSizing: "border-box",
           }}
         >
           {children}

@@ -87,7 +87,7 @@ export default function Toolbar({ editor }: ToolbarProps) {
         active={!!editor?.isActive("paragraph")}
         title="Paragraph"
       >
-        p
+        P
       </MenuButton>
       {headingLevels.map((level) => (
         <MenuButton

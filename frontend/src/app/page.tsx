@@ -137,14 +137,12 @@ export default function Page() {
   return (
     <MainLayout>
       {/* エディターエリア */}
-      <div style={{ padding: "24px", width: "100%" }}>
+      <div style={{ padding: "24px", width: "100%", boxSizing: "border-box" }}>
         <div
           style={{
             maxWidth: "100%",
-            margin: "0 auto",
             width: "100%",
-            padding: "0 16px 0 16px",
-            paddingRight: "32px",
+            overflow: "hidden",
           }}
         >
           <PostEditor
