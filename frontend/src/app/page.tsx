@@ -1,10 +1,10 @@
 "use client";
 
-import MainLayout from "@/components/layout/MainLayout";
 import PostEditor from "@/components/posts/PostEditor";
 import PostList from "@/components/posts/PostList";
 import { useState } from "react";
 import { Post } from "@/types/post";
+import MainLayout from "@/components/layout/MainLayout";
 
 export default function Page() {
   const [posts, setPosts] = useState<Post[]>([
