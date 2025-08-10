@@ -55,12 +55,16 @@ export default function Sidebar() {
   return (
     <aside
       style={{
+        position: "fixed",
+        top: "56px", // ヘッダーの高さ分下に配置
+        left: 0,
+        zIndex: 999,
         width: "200px",
         minWidth: "200px",
         maxWidth: "200px",
         backgroundColor: "white",
         borderRight: "1px solid #e9ecef",
-        minHeight: "calc(100vh - 60px)",
+        minHeight: "calc(100vh - 56px)", // ヘッダーの高さ分を引く
         padding: "16px",
         flexShrink: 0,
       }}

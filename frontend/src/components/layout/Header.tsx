@@ -10,9 +10,15 @@ export default function Header() {
   return (
     <header
       style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
         backgroundColor: "white",
         borderBottom: "1px solid #e9ecef",
         padding: "8px 16px",
+        width: "100%",
       }}
     >
       <div

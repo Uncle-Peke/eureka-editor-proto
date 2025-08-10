@@ -1,24 +1,20 @@
+// RightSidebar.tsx
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function RightSidebar() {
-  const [width, setWidth] = useState(280);
+interface RightSidebarProps {
+  width: number;
+  onWidthChange: (width: number) => void;
+}
+
+export default function RightSidebar({
+  width,
+  onWidthChange,
+}: RightSidebarProps) {
   const [isResizing, setIsResizing] = useState(false);
-  const sidebarRef = useRef<HTMLDivElement>(null);
   const startXRef = useRef(0);
   const startWidthRef = useRef(0);
-
-  const trends = [
-    { tag: "#NextJS", posts: "1,234件の投稿" },
-    { tag: "#React", posts: "2,345件の投稿" },
-    { tag: "#TypeScript", posts: "3,456件の投稿" },
-  ];
-
-  const recommendedUsers = [
-    { username: "おすすめユーザー1", handle: "@user1" },
-    { username: "おすすめユーザー2", handle: "@user2" },
-  ];
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsResizing(true);
@@ -28,189 +24,152 @@ export default function RightSidebar() {
     document.body.style.userSelect = "none";
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!isResizing) return;
-
-    const deltaX = startXRef.current - e.clientX;
-    const newWidth = Math.max(
-      200,
-      Math.min(500, startWidthRef.current + deltaX)
-    );
-    setWidth(newWidth);
-  };
-
-  const handleMouseUp = () => {
-    setIsResizing(false);
-    document.body.style.cursor = "";
-    document.body.style.userSelect = "";
-  };
-
   useEffect(() => {
-    if (isResizing) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+    if (!isResizing) return;
+    const onMove = (e: MouseEvent) => {
+      const deltaX = startXRef.current - e.clientX;
+      const next = Math.min(500, Math.max(200, startWidthRef.current + deltaX));
+      onWidthChange(next);
+    };
+    const onUp = () => {
+      setIsResizing(false);
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
+  }, [isResizing, onWidthChange]);
 
-      return () => {
-        document.removeEventListener("mousemove", handleMouseMove);
-        document.removeEventListener("mouseup", handleMouseUp);
-      };
-    }
-  }, [isResizing]);
+  const trends = [
+    { tag: "#NextJS", posts: "1,234件の投稿" },
+    { tag: "#React", posts: "2,345件の投稿" },
+    { tag: "#TypeScript", posts: "3,456件の投稿" },
+  ];
+  const users = [
+    { username: "おすすめユーザー1", handle: "@user1" },
+    { username: "おすすめユーザー2", handle: "@user2" },
+  ];
 
   return (
     <aside
-      ref={sidebarRef}
       style={{
-        width: `${width}px`,
-        minWidth: "200px",
-        maxWidth: "500px",
+        position: "relative", // ★ fixed/absolute禁止
+        width: "100%", // 親のグリッド列幅に一致
+        height: "100%",
         backgroundColor: "white",
         borderLeft: "1px solid #e9ecef",
-        minHeight: "calc(100vh - 60px)",
-        padding: "16px",
-        flexShrink: 0,
-        marginLeft: "12px",
-        position: "relative",
+        padding: 16,
+        boxSizing: "border-box",
       }}
     >
       {/* リサイズハンドル */}
       <div
+        onMouseDown={handleMouseDown}
         style={{
           position: "absolute",
-          left: "-4px",
+          left: -4,
           top: 0,
           bottom: 0,
-          width: "8px",
+          width: 8,
           cursor: "col-resize",
-          backgroundColor: "transparent",
-          zIndex: 10,
+          zIndex: 1,
         }}
-        onMouseDown={handleMouseDown}
       />
-      <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-        {/* トレンド */}
-        <div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <section>
           <h3
             style={{
-              fontSize: "18px",
+              fontSize: 18,
               fontWeight: "bold",
               color: "#212529",
-              marginBottom: "12px",
+              marginBottom: 12,
             }}
           >
             トレンド
           </h3>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "12px",
-            }}
-          >
-            {trends.map((trend, index) => (
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {trends.map((t) => (
               <div
-                key={index}
-                style={{
-                  padding: "12px",
-                  backgroundColor: "#f8f9fa",
-                  borderRadius: "6px",
-                }}
+                key={t.tag}
+                style={{ padding: 12, background: "#f8f9fa", borderRadius: 6 }}
               >
-                <p style={{ fontSize: "14px", color: "#6c757d" }}>トレンド</p>
-                <p style={{ fontWeight: "500", color: "#212529" }}>
-                  {trend.tag}
-                </p>
-                <p style={{ fontSize: "14px", color: "#6c757d" }}>
-                  {trend.posts}
-                </p>
+                <p style={{ fontSize: 14, color: "#6c757d" }}>トレンド</p>
+                <p style={{ fontWeight: 500, color: "#212529" }}>{t.tag}</p>
+                <p style={{ fontSize: 14, color: "#6c757d" }}>{t.posts}</p>
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* おすすめユーザー */}
-        <div>
+        <section>
           <h3
             style={{
-              fontSize: "18px",
+              fontSize: 18,
               fontWeight: "bold",
               color: "#212529",
-              marginBottom: "12px",
+              marginBottom: 12,
             }}
           >
             おすすめユーザー
           </h3>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "12px",
-            }}
-          >
-            {recommendedUsers.map((user, index) => (
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {users.map((u) => (
               <div
-                key={index}
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "12px",
-                }}
+                key={u.handle}
+                style={{ display: "flex", alignItems: "flex-start", gap: 12 }}
               >
                 <div
                   style={{
-                    width: "40px",
-                    height: "40px",
-                    backgroundColor: "#dee2e6",
+                    width: 40,
+                    height: 40,
+                    background: "#dee2e6",
                     borderRadius: "50%",
                   }}
-                ></div>
+                />
                 <div
                   style={{
                     flex: 1,
                     display: "flex",
                     alignItems: "center",
-                    minHeight: "40px",
+                    minHeight: 40,
                   }}
                 >
                   <div>
-                    <p
-                      style={{ fontWeight: "500", color: "#212529", margin: 0 }}
-                    >
-                      {user.username}
+                    <p style={{ fontWeight: 500, color: "#212529", margin: 0 }}>
+                      {u.username}
                     </p>
                     <p
                       style={{
-                        fontSize: "14px",
+                        fontSize: 14,
                         color: "#6c757d",
                         margin: "2px 0 0 0",
                       }}
                     >
-                      {user.handle}
+                      {u.handle}
                     </p>
                   </div>
                 </div>
                 <button
                   style={{
                     color: "#0d6efd",
-                    fontSize: "14px",
-                    fontWeight: "500",
+                    fontSize: 14,
+                    fontWeight: 500,
                     border: "none",
-                    backgroundColor: "transparent",
+                    background: "transparent",
                     cursor: "pointer",
                   }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "#0b5ed7")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "#0d6efd")
-                  }
                 >
                   フォロー
                 </button>
               </div>
             ))}
           </div>
-        </div>
+        </section>
       </div>
     </aside>
   );
