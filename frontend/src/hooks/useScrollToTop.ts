@@ -6,7 +6,7 @@ export const useScrollToTop = () => {
   useEffect(() => {
     const toggleVisibility = () => {
       // スクロール位置が100px以上でボタンを表示
-      if (window.pageYOffset > 100) {
+      if (window.scrollY > 100) {
         setIsVisible(true);
       } else {
         setIsVisible(false);

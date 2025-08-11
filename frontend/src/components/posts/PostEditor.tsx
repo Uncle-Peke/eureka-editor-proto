@@ -44,7 +44,6 @@ export default function PostEditor({
         </div>
       </div>
 
-      {/* Notionっぽいエディター */}
       <TipTapEditor
         content={content}
         placeholder="何か投稿してみましょう..."
