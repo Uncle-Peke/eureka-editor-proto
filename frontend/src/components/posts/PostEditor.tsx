@@ -49,7 +49,7 @@ export default function PostEditor({
         placeholder="何か投稿してみましょう..."
         onChange={onContentChange}
         minHeight={120}
-        maxHeight={400}
+        maxHeight={600}
       />
 
       <div
