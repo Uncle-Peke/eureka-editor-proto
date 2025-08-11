@@ -28,7 +28,7 @@ export default function ResizeHandle({ onMouseDown }: ResizeHandleProps) {
         height="16"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="currentColor"
+        stroke="#6c757d"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
