@@ -13,3 +13,4 @@ export { default as ProfileIcon } from "./ProfileIcon";
 export { default as SearchIcon } from "./SearchIcon";
 export { default as NotificationIcon } from "./NotificationIcon";
 export { default as ArrowUpIcon } from "./ArrowUpIcon";
+export { default as SettingsIcon } from "./SettingsIcon";

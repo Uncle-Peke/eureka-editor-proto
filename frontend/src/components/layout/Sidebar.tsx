@@ -5,6 +5,7 @@ import {
   ProfileIcon,
   SearchIcon,
   NotificationIcon,
+  SettingsIcon,
 } from "@/components/ui/icon";
 import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
 
@@ -28,6 +29,11 @@ export default function Sidebar() {
     {
       icon: <NotificationIcon size={20} />,
       label: "通知",
+      href: "#",
+    },
+    {
+      icon: <SettingsIcon size={20} />,
+      label: "設定",
       href: "#",
     },
   ];
