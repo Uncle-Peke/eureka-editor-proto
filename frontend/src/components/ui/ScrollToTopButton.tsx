@@ -11,7 +11,7 @@ export default function ScrollToTopButton() {
       style={{
         position: "fixed",
         bottom: "var(--spacing-3)",
-        left: "175px", // 左サイドメニューの右端（200px - 24px = 176pxの位置）
+        left: "170px",
         opacity: isVisible ? 1 : 0,
         visibility: isVisible ? "visible" : "hidden",
         transition:
