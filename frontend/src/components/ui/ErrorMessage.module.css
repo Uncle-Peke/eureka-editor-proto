@@ -1,0 +1,59 @@
+.errorContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  max-width: 400px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.errorContent {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.errorIcon {
+  color: #dc2626;
+  flex-shrink: 0;
+}
+
+.errorText {
+  color: #991b1b;
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: #991b1b;
+  cursor: pointer;
+  padding: var(--spacing-1);
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.closeButton:hover {
+  background-color: rgba(220, 38, 38, 0.1);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

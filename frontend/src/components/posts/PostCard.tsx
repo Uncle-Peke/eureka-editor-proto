@@ -7,6 +7,7 @@ import TipTapViewer from "./TipTapViewer";
 import PostEditor from "./PostEditor";
 import { useState } from "react";
 import styles from "./PostCard.module.css";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 interface PostCardProps {
   post: Post;
@@ -21,6 +22,8 @@ export default function PostCard({
 }: PostCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(post.content);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleCopyId = () => {
     navigator.clipboard.writeText(post.id);
@@ -32,21 +35,35 @@ export default function PostCard({
     setEditContent(post.content);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (confirm("この投稿を削除しますか？")) {
       if (onPostDelete) {
-        onPostDelete(post.id);
+        setIsDeleting(true);
+        try {
+          await onPostDelete(post.id);
+        } catch (error) {
+          console.error("投稿の削除に失敗しました:", error);
+        } finally {
+          setIsDeleting(false);
+        }
       } else {
         alert(`投稿ID: ${post.id} を削除しました`);
       }
     }
   };
 
-  const handleEditSave = () => {
+  const handleEditSave = async () => {
     if (onPostUpdate) {
-      onPostUpdate(post.id, editContent);
+      setIsUpdating(true);
+      try {
+        await onPostUpdate(post.id, editContent);
+        setIsEditing(false);
+      } catch (error) {
+        console.error("投稿の更新に失敗しました:", error);
+      } finally {
+        setIsUpdating(false);
+      }
     }
-    setIsEditing(false);
   };
 
   const handleEditCancel = () => {
@@ -66,6 +83,7 @@ export default function PostCard({
           userHandle={post.userHandle}
           isEditing={true}
           onCancel={handleEditCancel}
+          isLoading={isUpdating}
         />
       </div>
     );
@@ -104,6 +122,7 @@ export default function PostCard({
                   as="button"
                   className={styles.menuItem}
                   onClick={handleEdit}
+                  disabled={isUpdating || isDeleting}
                 >
                   <svg
                     width="16"
@@ -119,15 +138,20 @@ export default function PostCard({
                   as="button"
                   className={`${styles.menuItem} ${styles.deleteItem}`}
                   onClick={handleDelete}
+                  disabled={isUpdating || isDeleting}
                 >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                  </svg>
+                  {isDeleting ? (
+                    <LoadingSpinner size="sm" />
+                  ) : (
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                    </svg>
+                  )}
                   削除
                 </MenuItem>
               </MenuItems>

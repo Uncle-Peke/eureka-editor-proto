@@ -2,6 +2,7 @@ import { Button, Card, Avatar } from "@/components/ui";
 import TipTapEditor from "@/components/editor/TipTapEditor";
 import ImageButton from "./ImageButton";
 import EmojiButton from "./EmojiButton";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 interface PostEditorProps {
   content: string;
@@ -11,6 +12,7 @@ interface PostEditorProps {
   userHandle?: string;
   isEditing?: boolean;
   onCancel?: () => void;
+  isLoading?: boolean;
 }
 
 export default function PostEditor({
@@ -21,6 +23,7 @@ export default function PostEditor({
   userHandle = "@username",
   isEditing = false,
   onCancel,
+  isLoading = false,
 }: PostEditorProps) {
   return (
     <Card padding="lg">
@@ -83,10 +86,22 @@ export default function PostEditor({
           <Button
             onClick={onPost}
             disabled={
-              !content || content.trim() === "" || content === "<p></p>"
+              !content ||
+              content.trim() === "" ||
+              content === "<p></p>" ||
+              isLoading
             }
           >
-            {isEditing ? "更新" : "投稿"}
+            {isLoading ? (
+              <>
+                <LoadingSpinner size="sm" />
+                {isEditing ? "更新中..." : "投稿中..."}
+              </>
+            ) : isEditing ? (
+              "更新"
+            ) : (
+              "投稿"
+            )}
           </Button>
         </div>
       </div>
