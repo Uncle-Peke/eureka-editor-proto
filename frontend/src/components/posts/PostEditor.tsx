@@ -9,6 +9,8 @@ interface PostEditorProps {
   onPost: () => void;
   username?: string;
   userHandle?: string;
+  isEditing?: boolean;
+  onCancel?: () => void;
 }
 
 export default function PostEditor({
@@ -17,6 +19,8 @@ export default function PostEditor({
   onPost,
   username = "ユーザー名",
   userHandle = "@username",
+  isEditing = false,
+  onCancel,
 }: PostEditorProps) {
   return (
     <Card padding="lg">
@@ -70,9 +74,21 @@ export default function PostEditor({
           <ImageButton />
           <EmojiButton />
         </div>
-        <Button onClick={onPost} disabled={!content.trim()}>
-          投稿
-        </Button>
+        <div style={{ display: "flex", gap: "var(--spacing-2)" }}>
+          {isEditing && onCancel && (
+            <Button variant="ghost" onClick={onCancel}>
+              キャンセル
+            </Button>
+          )}
+          <Button
+            onClick={onPost}
+            disabled={
+              !content || content.trim() === "" || content === "<p></p>"
+            }
+          >
+            {isEditing ? "更新" : "投稿"}
+          </Button>
+        </div>
       </div>
     </Card>
   );

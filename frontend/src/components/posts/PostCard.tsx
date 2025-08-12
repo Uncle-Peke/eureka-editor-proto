@@ -4,27 +4,72 @@ import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
 import { Post } from "@/types/post";
 import PostActions from "./PostActions";
 import TipTapViewer from "./TipTapViewer";
+import PostEditor from "./PostEditor";
+import { useState } from "react";
 import styles from "./PostCard.module.css";
 
 interface PostCardProps {
   post: Post;
+  onPostUpdate?: (postId: string, newContent: string) => void;
+  onPostDelete?: (postId: string) => void;
 }
 
-export default function PostCard({ post }: PostCardProps) {
+export default function PostCard({
+  post,
+  onPostUpdate,
+  onPostDelete,
+}: PostCardProps) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState(post.content);
+
   const handleCopyId = () => {
     navigator.clipboard.writeText(post.id);
     alert("投稿IDをコピーしました");
   };
 
   const handleEdit = () => {
-    alert(`投稿ID: ${post.id} を編集します`);
+    setIsEditing(true);
+    setEditContent(post.content);
   };
 
   const handleDelete = () => {
     if (confirm("この投稿を削除しますか？")) {
-      alert(`投稿ID: ${post.id} を削除しました`);
+      if (onPostDelete) {
+        onPostDelete(post.id);
+      } else {
+        alert(`投稿ID: ${post.id} を削除しました`);
+      }
     }
   };
+
+  const handleEditSave = () => {
+    if (onPostUpdate) {
+      onPostUpdate(post.id, editContent);
+    }
+    setIsEditing(false);
+  };
+
+  const handleEditCancel = () => {
+    setIsEditing(false);
+    setEditContent(post.content);
+  };
+
+  // 編集モードの場合はPostEditorを表示
+  if (isEditing) {
+    return (
+      <div className={styles.card}>
+        <PostEditor
+          content={editContent}
+          onContentChange={setEditContent}
+          onPost={handleEditSave}
+          username={post.username}
+          userHandle={post.userHandle}
+          isEditing={true}
+          onCancel={handleEditCancel}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.card}>

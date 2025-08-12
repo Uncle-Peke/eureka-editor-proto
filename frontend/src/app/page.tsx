@@ -94,56 +94,57 @@ export default function Page() {
       username: "優斗",
       userHandle: "@yuto",
       timestamp: "1週間前",
-      likes: 21,
-      reposts: 5,
-      replies: 3,
-    },
-    {
-      id: "10",
-      content: "久しぶりに映画館へ。やっぱり大画面は迫力が違う！🎬",
-      username: "玲奈",
-      userHandle: "@rena",
-      timestamp: "1週間前",
-      likes: 40,
+      likes: 45,
       reposts: 12,
-      replies: 9,
+      replies: 20,
     },
   ]);
-  const [editorContent, setEditorContent] = useState("");
 
-  const handleEditorChange = (html: string) => {
-    setEditorContent(html);
+  const [newPostContent, setNewPostContent] = useState("");
+
+  const handleNewPost = () => {
+    if (newPostContent.trim()) {
+      const newPost: Post = {
+        id: Date.now().toString(),
+        content: newPostContent,
+        username: "現在のユーザー",
+        userHandle: "@currentuser",
+        timestamp: "今",
+        likes: 0,
+        reposts: 0,
+        replies: 0,
+      };
+      setPosts([newPost, ...posts]);
+      setNewPostContent("");
+    }
   };
 
-  const handlePost = () => {
-    if (!editorContent.trim()) return;
+  const handlePostUpdate = (postId: string, newContent: string) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId ? { ...post, content: newContent } : post
+      )
+    );
+  };
 
-    const newPost: Post = {
-      id: Date.now().toString(),
-      content: editorContent,
-      username: "ユーザー名",
-      userHandle: "@username",
-      timestamp: "今",
-      likes: 0,
-      reposts: 0,
-      replies: 0,
-    };
-
-    setPosts([newPost, ...posts]);
-    setEditorContent("");
+  const handlePostDelete = (postId: string) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
   };
 
   return (
-    <>
+    <div style={{ padding: "var(--spacing-4)" }}>
       <PostEditor
-        content={editorContent}
-        onContentChange={handleEditorChange}
-        onPost={handlePost}
-        username="ユーザー名"
-        userHandle="@username"
+        content={newPostContent}
+        onContentChange={setNewPostContent}
+        onPost={handleNewPost}
       />
-
-      <PostList posts={posts} />
-    </>
+      <div style={{ marginTop: "var(--spacing-6)" }}>
+        <PostList
+          posts={posts}
+          onPostUpdate={handlePostUpdate}
+          onPostDelete={handlePostDelete}
+        />
+      </div>
+    </div>
   );
 }
