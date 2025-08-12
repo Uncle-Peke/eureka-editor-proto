@@ -32,7 +32,7 @@
       }
     }
   },
-  "initializeCommand": "/opt/homebrew/bin/op inject -i .devcontainer/.env.tpl -o .devcontainer/.env",
+  "initializeCommand": "rm -f .devcontainer/.env && /opt/homebrew/bin/op inject -i .devcontainer/.env.tpl -o .devcontainer/.env",
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
