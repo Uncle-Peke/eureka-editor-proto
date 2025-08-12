@@ -37,6 +37,8 @@ services:
     container_name: backend
     labels:
       - devcontainer.metadata
+    env_file:
+      - .env
     working_dir: /workspace
     volumes:
       - ../backend:/workspace
@@ -56,7 +58,7 @@ services:
     labels:
       - devcontainer.metadata
     env_file:
-      - ./frontend/.env
+      - /.env
     working_dir: /workspace
     volumes:
       - ../frontend:/workspace

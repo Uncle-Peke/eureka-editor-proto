@@ -27,6 +27,7 @@
       }
     }
   },
+  "initializeCommand": "/opt/homebrew/bin/op inject -i .devcontainer/.env.tpl -o .devcontainer/.env",
   "forwardPorts": [8080],
   "portsAttributes": {
     "8080": {

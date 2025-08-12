@@ -4,27 +4,30 @@ import (
 	"log"
 	"net/http"
 
+	"backend/routes"
+
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	r := gin.Default()
 
-	// ヘルスチェックエンドポイント
-	r.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"status":  "ok",
-			"message": "Backend is running",
-		})
+	// CORSミドルウェアを追加
+	r.Use(func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		c.Header("Access-Control-Allow-Headers", "Origin, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+		
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(http.StatusNoContent)
+			return
+		}
+		
+		c.Next()
 	})
 
-	// APIエンドポイント
-	r.GET("/api/hello", func(c *gin.Context) {
-		log.Println("Hello from Backend!")
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello from Backend!",
-		})
-	})
+	// ルーティングを設定
+	routes.SetupRoutes(r)
 
 	log.Println("Backend server starting on :8080")
 	r.Run(":8080")
