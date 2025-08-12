@@ -4,14 +4,14 @@ import "time"
 
 // Post は投稿を表す構造体
 type Post struct {
-	ID          string    `json:"id"`
-	Content     string    `json:"content"`
-	Username    string    `json:"username"`
-	UserHandle  string    `json:"userHandle"`
-	Timestamp   time.Time `json:"timestamp"`
-	Likes       int       `json:"likes"`
-	Reposts     int       `json:"reposts"`
-	Replies     int       `json:"replies"`
+	ID          string    `json:"id" db:"id"`
+	Content     string    `json:"content" db:"content"`
+	Username    string    `json:"username" db:"username"`
+	UserHandle  string    `json:"userHandle" db:"user_handle"`
+	Timestamp   time.Time `json:"timestamp" db:"timestamp"`
+	Likes       int       `json:"likes" db:"likes"`
+	Reposts     int       `json:"reposts" db:"reposts"`
+	Replies     int       `json:"replies" db:"replies"`
 }
 
 // CreatePostRequest は投稿作成リクエストを表す構造体

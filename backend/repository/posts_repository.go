@@ -6,6 +6,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"time"
 )
 
@@ -95,6 +96,9 @@ func (r *PostsRepository) CreatePost(ctx context.Context, req models.CreatePostR
 		RETURNING id, content, username, user_handle, timestamp, likes, reposts, replies
 	`
 	
+	log.Printf("SQLクエリ実行: %s", query)
+	log.Printf("パラメータ: Content=%s, Username=%s, UserHandle=%s", req.Content, req.Username, req.UserHandle)
+	
 	var post models.Post
 	err := r.db.QueryRowContext(ctx, query,
 		req.Content,
@@ -113,9 +117,11 @@ func (r *PostsRepository) CreatePost(ctx context.Context, req models.CreatePostR
 	)
 	
 	if err != nil {
+		log.Printf("データベースエラー: %v", err)
 		return nil, fmt.Errorf("ポスト作成エラー: %v", err)
 	}
 	
+	log.Printf("投稿作成成功: ID=%s", post.ID)
 	return &post, nil
 }
 

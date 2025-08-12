@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 
 	"backend/models"
@@ -72,13 +73,19 @@ func (h *PostsHandler) CreatePost(c *gin.Context) {
 		return
 	}
 
+	// デバッグ用ログ
+	log.Printf("投稿作成リクエスト: Content=%s, Username=%s, UserHandle=%s", req.Content, req.Username, req.UserHandle)
+
 	post, err := h.repo.CreatePost(c.Request.Context(), req)
 	if err != nil {
+		log.Printf("投稿作成エラー: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "投稿の作成に失敗しました: " + err.Error(),
 		})
 		return
 	}
+
+	log.Printf("投稿作成成功: ID=%s", post.ID)
 
 	response := models.PostResponse{
 		Post: *post,

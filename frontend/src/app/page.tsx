@@ -21,12 +21,21 @@ export default function Page() {
     try {
       setLoading(true);
       const fetchedPosts = await PostsAPI.getPosts();
-      setPosts(fetchedPosts);
+
+      // 配列であることを確認し、配列でない場合は空配列を設定
+      if (Array.isArray(fetchedPosts)) {
+        setPosts(fetchedPosts);
+      } else {
+        console.warn("APIから配列以外の値が返されました:", fetchedPosts);
+        setPosts([]);
+      }
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "投稿の取得に失敗しました";
       setError(errorMessage);
       console.error("投稿の取得に失敗しました:", err);
+      // エラー時は空配列を設定
+      setPosts([]);
     } finally {
       setLoading(false);
     }
@@ -60,8 +69,21 @@ export default function Page() {
 
   if (loading) {
     return (
-      <div style={{ padding: "var(--spacing-4)", textAlign: "center" }}>
-        <p>投稿を読み込み中...</p>
+      <div
+        style={{
+          padding: "var(--spacing-4)",
+          backgroundColor: "var(--color-bg-primary)",
+          minHeight: "calc(100vh - var(--header-height))",
+          borderRadius: "var(--radius-lg) 0 0 0",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>⏳</div>
+          <p>投稿を読み込み中...</p>
+        </div>
       </div>
     );
   }
@@ -71,18 +93,46 @@ export default function Page() {
       <div
         style={{
           padding: "var(--spacing-4)",
-          textAlign: "center",
-          color: "red",
+          backgroundColor: "var(--color-bg-primary)",
+          minHeight: "calc(100vh - var(--header-height))",
+          borderRadius: "var(--radius-lg) 0 0 0",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <p>エラー: {error}</p>
-        <button onClick={fetchPosts}>再試行</button>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontSize: "2rem", marginBottom: "1rem", color: "red" }}>
+            ⚠️
+          </div>
+          <p style={{ color: "red", marginBottom: "1rem" }}>エラー: {error}</p>
+          <button
+            onClick={fetchPosts}
+            style={{
+              padding: "var(--spacing-2) var(--spacing-3)",
+              backgroundColor: "var(--color-primary)",
+              color: "white",
+              border: "none",
+              borderRadius: "var(--radius-md)",
+              cursor: "pointer",
+            }}
+          >
+            再試行
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: "var(--spacing-4)" }}>
+    <div
+      style={{
+        padding: "var(--spacing-4)",
+        backgroundColor: "var(--color-bg-primary)",
+        minHeight: "calc(100vh - var(--header-height))",
+        borderRadius: "var(--radius-lg) 0 0 0",
+      }}
+    >
       <PostEditor
         content={postContent}
         onContentChange={handleContentChange}

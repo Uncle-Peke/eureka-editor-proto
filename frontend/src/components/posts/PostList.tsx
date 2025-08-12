@@ -134,8 +134,29 @@ export default function PostList({
   if (posts.length === 0) {
     return (
       <div className={styles.container}>
-        <div style={{ textAlign: "center", padding: "2rem" }}>
-          <p>投稿がありません</p>
+        <div style={{ 
+          textAlign: "center", 
+          padding: "3rem 2rem",
+          backgroundColor: "var(--color-bg-secondary)",
+          borderRadius: "var(--radius-lg)",
+          border: "2px dashed var(--color-border-secondary)",
+          margin: "var(--spacing-4) 0"
+        }}>
+          <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>📝</div>
+          <h3 style={{ 
+            margin: "0 0 0.5rem 0", 
+            color: "var(--color-text-secondary)",
+            fontSize: "var(--font-size-lg)"
+          }}>
+            まだ投稿がありません
+          </h3>
+          <p style={{ 
+            margin: 0, 
+            color: "var(--color-text-muted)",
+            fontSize: "var(--font-size-base)"
+          }}>
+            最初の投稿を作成してみましょう！
+          </p>
         </div>
       </div>
     );

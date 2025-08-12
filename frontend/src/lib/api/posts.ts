@@ -28,8 +28,18 @@ export class PostsAPI {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data: PostsResponse = await response.json();
-      return data.posts;
+      const data = await response.json();
+
+      // レスポンスの形式を検証
+      if (data && Array.isArray(data.posts)) {
+        return data.posts;
+      } else if (Array.isArray(data)) {
+        // 直接配列が返される場合
+        return data;
+      } else {
+        console.warn("予期しないAPIレスポンス形式:", data);
+        return [];
+      }
     } catch (error) {
       console.error("投稿一覧の取得に失敗しました:", error);
       throw error;
