@@ -1,7 +1,6 @@
 import { Post } from "@/types/post";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 export interface CreatePostRequest {
   content: string;

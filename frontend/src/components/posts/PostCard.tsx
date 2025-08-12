@@ -8,6 +8,7 @@ import PostEditor from "./PostEditor";
 import { useState } from "react";
 import styles from "./PostCard.module.css";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import { PostsAPI, UpdatePostRequest } from "@/lib/api/posts";
 
 interface PostCardProps {
   post: Post;
@@ -37,32 +38,42 @@ export default function PostCard({
 
   const handleDelete = async () => {
     if (confirm("この投稿を削除しますか？")) {
-      if (onPostDelete) {
-        setIsDeleting(true);
-        try {
-          await onPostDelete(post.id);
-        } catch (error) {
-          console.error("投稿の削除に失敗しました:", error);
-        } finally {
-          setIsDeleting(false);
+      setIsDeleting(true);
+      try {
+        // PostsAPIを直接使用
+        await PostsAPI.deletePost(post.id);
+
+        // 親コンポーネントにも通知（オプション）
+        if (onPostDelete) {
+          onPostDelete(post.id);
         }
-      } else {
-        alert(`投稿ID: ${post.id} を削除しました`);
+      } catch (error) {
+        console.error("投稿の削除に失敗しました:", error);
+        alert("投稿の削除に失敗しました");
+      } finally {
+        setIsDeleting(false);
       }
     }
   };
 
   const handleEditSave = async () => {
-    if (onPostUpdate) {
-      setIsUpdating(true);
-      try {
-        await onPostUpdate(post.id, editContent);
-        setIsEditing(false);
-      } catch (error) {
-        console.error("投稿の更新に失敗しました:", error);
-      } finally {
-        setIsUpdating(false);
+    setIsUpdating(true);
+    try {
+      // PostsAPIを直接使用
+      const updateData: UpdatePostRequest = { content: editContent };
+      const updatedPost = await PostsAPI.updatePost(post.id, updateData);
+
+      // 親コンポーネントにも通知（オプション）
+      if (onPostUpdate) {
+        onPostUpdate(post.id, editContent);
       }
+
+      setIsEditing(false);
+    } catch (error) {
+      console.error("投稿の更新に失敗しました:", error);
+      alert("投稿の更新に失敗しました");
+    } finally {
+      setIsUpdating(false);
     }
   };
 

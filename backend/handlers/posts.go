@@ -2,54 +2,37 @@ package handlers
 
 import (
 	"net/http"
-	"time"
 
 	"backend/models"
+	"backend/repository"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 // PostsHandler は投稿関連のHTTPハンドラー
 type PostsHandler struct {
-	posts []models.Post
+	repo *repository.PostsRepository
 }
 
 // NewPostsHandler は新しいPostsHandlerを作成
 func NewPostsHandler() *PostsHandler {
-	// サンプルデータを初期化
-	samplePosts := []models.Post{
-		{
-			ID:         "1",
-			Content:    "これは最初の投稿です！",
-			Username:   "テストユーザー",
-			UserHandle: "@testuser",
-			Timestamp:  time.Now().Add(-time.Hour),
-			Likes:      5,
-			Reposts:    2,
-			Replies:    1,
-		},
-		{
-			ID:         "2",
-			Content:    "2番目の投稿です。",
-			Username:   "サンプルユーザー",
-			UserHandle: "@sampleuser",
-			Timestamp:  time.Now().Add(-30 * time.Minute),
-			Likes:      3,
-			Reposts:    0,
-			Replies:    0,
-		},
-	}
-
 	return &PostsHandler{
-		posts: samplePosts,
+		repo: repository.NewPostsRepository(),
 	}
 }
 
 // GetPosts は投稿一覧を取得
 func (h *PostsHandler) GetPosts(c *gin.Context) {
+	posts, err := h.repo.GetPosts(c.Request.Context())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "投稿の取得に失敗しました: " + err.Error(),
+		})
+		return
+	}
+
 	response := models.PostsResponse{
-		Posts: h.posts,
+		Posts: posts,
 	}
 	c.JSON(http.StatusOK, response)
 }
@@ -58,19 +41,25 @@ func (h *PostsHandler) GetPosts(c *gin.Context) {
 func (h *PostsHandler) GetPost(c *gin.Context) {
 	id := c.Param("id")
 
-	for _, post := range h.posts {
-		if post.ID == id {
-			response := models.PostResponse{
-				Post: post,
-			}
-			c.JSON(http.StatusOK, response)
-			return
-		}
+	post, err := h.repo.GetPost(c.Request.Context(), id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "投稿の取得に失敗しました: " + err.Error(),
+		})
+		return
 	}
 
-	c.JSON(http.StatusNotFound, gin.H{
-		"error": "投稿が見つかりません",
-	})
+	if post == nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "投稿が見つかりません",
+		})
+		return
+	}
+
+	response := models.PostResponse{
+		Post: *post,
+	}
+	c.JSON(http.StatusOK, response)
 }
 
 // CreatePost は新しい投稿を作成
@@ -83,21 +72,16 @@ func (h *PostsHandler) CreatePost(c *gin.Context) {
 		return
 	}
 
-	newPost := models.Post{
-		ID:         uuid.New().String(),
-		Content:    req.Content,
-		Username:   req.Username,
-		UserHandle: req.UserHandle,
-		Timestamp:  time.Now(),
-		Likes:      0,
-		Reposts:    0,
-		Replies:    0,
+	post, err := h.repo.CreatePost(c.Request.Context(), req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "投稿の作成に失敗しました: " + err.Error(),
+		})
+		return
 	}
 
-	h.posts = append(h.posts, newPost)
-
 	response := models.PostResponse{
-		Post: newPost,
+		Post: *post,
 	}
 	c.JSON(http.StatusCreated, response)
 }
@@ -114,79 +98,88 @@ func (h *PostsHandler) UpdatePost(c *gin.Context) {
 		return
 	}
 
-	for i, post := range h.posts {
-		if post.ID == id {
-			h.posts[i].Content = req.Content
-
-			response := models.PostResponse{
-				Post: h.posts[i],
-			}
-			c.JSON(http.StatusOK, response)
-			return
-		}
+	post, err := h.repo.UpdatePost(c.Request.Context(), id, req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "投稿の更新に失敗しました: " + err.Error(),
+		})
+		return
 	}
 
-	c.JSON(http.StatusNotFound, gin.H{
-		"error": "投稿が見つかりません",
-	})
+	if post == nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "投稿が見つかりません",
+		})
+		return
+	}
+
+	response := models.PostResponse{
+		Post: *post,
+	}
+	c.JSON(http.StatusOK, response)
 }
 
 // DeletePost は投稿を削除
 func (h *PostsHandler) DeletePost(c *gin.Context) {
 	id := c.Param("id")
 
-	for i, post := range h.posts {
-		if post.ID == id {
-			// スライスから要素を削除
-			h.posts = append(h.posts[:i], h.posts[i+1:]...)
-			c.Status(http.StatusNoContent)
-			return
-		}
+	err := h.repo.DeletePost(c.Request.Context(), id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "投稿の削除に失敗しました: " + err.Error(),
+		})
+		return
 	}
 
-	c.JSON(http.StatusNotFound, gin.H{
-		"error": "投稿が見つかりません",
-	})
+	c.Status(http.StatusNoContent)
 }
 
 // LikePost は投稿にいいねを追加
 func (h *PostsHandler) LikePost(c *gin.Context) {
 	id := c.Param("id")
 
-	for i, post := range h.posts {
-		if post.ID == id {
-			h.posts[i].Likes++
-
-			response := models.PostResponse{
-				Post: h.posts[i],
-			}
-			c.JSON(http.StatusOK, response)
-			return
-		}
+	post, err := h.repo.LikePost(c.Request.Context(), id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "いいねの追加に失敗しました: " + err.Error(),
+		})
+		return
 	}
 
-	c.JSON(http.StatusNotFound, gin.H{
-		"error": "投稿が見つかりません",
-	})
+	if post == nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "投稿が見つかりません",
+		})
+		return
+	}
+
+	response := models.PostResponse{
+		Post: *post,
+	}
+	c.JSON(http.StatusOK, response)
 }
 
 // RepostPost は投稿をリポスト
 func (h *PostsHandler) RepostPost(c *gin.Context) {
 	id := c.Param("id")
 
-	for i, post := range h.posts {
-		if post.ID == id {
-			h.posts[i].Reposts++
-
-			response := models.PostResponse{
-				Post: h.posts[i],
-			}
-			c.JSON(http.StatusOK, response)
-			return
-		}
+	post, err := h.repo.RepostPost(c.Request.Context(), id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "リポストの追加に失敗しました: " + err.Error(),
+		})
+		return
 	}
 
-	c.JSON(http.StatusNotFound, gin.H{
-		"error": "投稿が見つかりません",
-	})
+	if post == nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "投稿が見つかりません",
+		})
+		return
+	}
+
+	response := models.PostResponse{
+		Post: *post,
+	}
+	c.JSON(http.StatusOK, response)
 }

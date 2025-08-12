@@ -16,16 +16,6 @@ func SetupRoutes(r *gin.Engine) {
 		})
 	})
 
-	// APIエンドポイント
-	api := r.Group("/api")
-	{
-		api.GET("/hello", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "Hello from Backend!",
-			})
-		})
-	}
-
 	// 投稿関連のエンドポイント
 	postsHandler := handlers.NewPostsHandler()
 	

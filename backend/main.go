@@ -4,12 +4,19 @@ import (
 	"log"
 	"net/http"
 
+	"backend/database"
 	"backend/routes"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	// データベース接続を初期化
+	if err := database.InitDB(); err != nil {
+		log.Fatalf("データベース接続失敗: %v", err)
+	}
+	defer database.CloseDB()
+
 	r := gin.Default()
 
 	// CORSミドルウェアを追加
