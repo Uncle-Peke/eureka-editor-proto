@@ -7,11 +7,18 @@ interface KebabMenuProps {
 
 export default function KebabMenu({ onClick, className }: KebabMenuProps) {
   return (
-    <button
+    <div
       onClick={onClick}
       className={className}
       aria-label="メニューを開く"
-      type="button"
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick?.(e as any);
+        }
+      }}
     >
       <svg
         width="20"
@@ -24,6 +31,6 @@ export default function KebabMenu({ onClick, className }: KebabMenuProps) {
         <circle cx="12" cy="12" r="2" />
         <circle cx="12" cy="18" r="2" />
       </svg>
-    </button>
+    </div>
   );
 }

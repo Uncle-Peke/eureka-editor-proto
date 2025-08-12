@@ -58,6 +58,15 @@
   color: var(--color-text-primary);
 }
 
+.kebabMenu:focus {
+  outline: none;
+}
+
+.kebabMenu:focus-visible {
+  outline: 2px solid var(--color-border);
+  outline-offset: 2px;
+}
+
 .dropdownMenu {
   position: absolute;
   top: 100%;
@@ -69,9 +78,16 @@
   min-width: 160px;
   z-index: 1000;
   margin-top: var(--spacing-1);
+  overflow: hidden;
 }
 
 .menuItem {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+  width: 100%;
+  text-align: left;
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
@@ -79,11 +95,20 @@
   cursor: pointer;
   color: var(--color-text-primary);
   transition: background-color 0.2s ease;
-  border-bottom: 1px solid var(--color-border-light);
 }
 
-.menuItem:last-child {
-  border-bottom: none;
+.menuItem + .menuItem {
+  border-top: 1px solid var(--color-border-light);
+}
+
+.menuItem:focus {
+  outline: none;
+  background: transparent;
+}
+
+.menuItem:focus-visible {
+  outline: 2px solid var(--color-border);
+  outline-offset: -2px;
 }
 
 .menuItem:hover {
