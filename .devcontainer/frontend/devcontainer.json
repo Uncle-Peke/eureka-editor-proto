@@ -28,15 +28,12 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "editor.codeActionsOnSave": {
           "source.fixAll.eslint": "explicit"
-        },
-        "terminal.integrated.env.osx": {
-          "NEXT_PUBLIC_API_URL": "http://localhost:8080/api"
-        },
-        "terminal.integrated.env.linux": {
-          "NEXT_PUBLIC_API_URL": "http://localhost:8080/api"
         }
       }
     }
+  },
+  "containerEnv": {
+    "NEXT_PUBLIC_API_URL": "http://localhost:8080/api"
   },
   "forwardPorts": [3000],
   "portsAttributes": {
