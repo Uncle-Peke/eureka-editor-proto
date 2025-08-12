@@ -32,9 +32,7 @@
       }
     }
   },
-  "containerEnv": {
-    "NEXT_PUBLIC_API_URL": "http://localhost:8080/api"
-  },
+  "initializeCommand": "/opt/homebrew/bin/op inject -i .devcontainer/frontend/.env.tpl -o .devcontainer/frontend/.env",
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
